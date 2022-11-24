@@ -1,14 +1,9 @@
-//
-//  LandingView.swift
-//  Movie
-//
-//  Created by Robert D'Almeida on 24/11/2022.
-//
-
 import SwiftUI
 
 struct StartingView: View {
-    @ObservedObject var viewModel = StartingViewModel()
+    @EnvironmentObject var appConfiguration: AppConfiguration
+    @StateObject var viewModel: StartingViewModel = StartingViewModel()
+    
     var body: some View {
         ZStack {
             switch viewModel.state {
@@ -28,16 +23,20 @@ struct StartingView: View {
             case .error:
                 ErrorView()
                     .onTapGesture {
-                        Task {
-                            await viewModel.fetchData()
-                        }
+                        fectchInitializationData()
                     }
             case .loading:
                 ProgressView()
             }
         }
         .task {
-            await viewModel.fetchData()
+            fectchInitializationData()
+        }
+    }
+    
+    func fectchInitializationData() {
+        Task {
+            await viewModel.fetchData(using: appConfiguration.storeService)
         }
     }
 }
@@ -45,5 +44,6 @@ struct StartingView: View {
 struct StartingView_Previews: PreviewProvider {
     static var previews: some View {
         StartingView()
+            .configure()
     }
 }

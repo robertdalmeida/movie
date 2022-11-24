@@ -7,11 +7,25 @@
 
 import SwiftUI
 
+actor AppConfiguration: ObservableObject {
+    var storeService = TMDbStoreService()
+}
+
 @main
 struct MovieApp: App {
+    @StateObject var appConfiguration = AppConfiguration()
     var body: some Scene {
         WindowGroup {
             StartingView()
+                .environmentObject(appConfiguration)
         }
     }
 }
+
+#if DEBUG
+extension View {
+    func configure() -> some View {
+        self.environmentObject(AppConfiguration())
+    }
+}
+#endif

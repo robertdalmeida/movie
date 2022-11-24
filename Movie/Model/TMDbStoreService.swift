@@ -9,7 +9,7 @@ import Foundation
 import struct TMDb.Movie
 import class TMDb.TMDbAPI
 
-struct TMDbStoreService {
+final class TMDbStoreService: ObservableObject {
     let tmdb = TMDbAPI(apiKey: "0aff42c3702e51dab885840d01ca77f8")
     
     enum StoreServiceError: Error {
@@ -25,6 +25,7 @@ struct TMDbStoreService {
         do {
             #warning("Robert: we can implement something to paginate as user scrolls.")
             let movieResult = try await tmdb.discover.movies(sortedBy: .popularity(), withPeople: nil, page: 1)
+            
             return .data(movieResult.results)
         } catch {
             print("\(#function): \(error)")
@@ -50,5 +51,8 @@ struct TMDbStoreService {
     func fetchMoreNowPlaying() {
         //ROB: increase the pagination count and request move movies.
     }
-
+    
+    func movieDetails() {
+//        tmdb.movies.details(forMovie: )
+    }
 }

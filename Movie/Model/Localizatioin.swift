@@ -10,7 +10,7 @@ struct Localizable {
     var wrappedValue: String {
         get {
             let translatedValue = NSLocalizedString(key.rawValue, comment: "")
-            if translatedValue == defaultValue {
+            if translatedValue == key.rawValue {
                 return defaultValue
             } else {
                 return translatedValue

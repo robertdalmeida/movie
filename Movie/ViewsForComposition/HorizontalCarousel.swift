@@ -1,48 +1,40 @@
 //
-//  ContentView.swift
+//  HorizontalCarousel.swift
 //  Movie
 //
-//  Created by Robert D'Almeida on 23/11/2022.
+//  Created by Robert D'Almeida on 24/11/2022.
 //
 
 import SwiftUI
-import TMDb
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+extension HorizontalCarousel {
+    struct Item: Identifiable {
+        var order: Int
+        var title: String
+        var color: Color
+        
+        var id: Int {
+            order
+        }
     }
-}
 
+    class Store: ObservableObject {
+        @Published var items: [Item]
+        
+        let colors: [Color] = [.red, .orange, .blue, .teal, .mint, .green, .gray, .indigo, .black]
 
-struct Item: Identifiable {
-    var order: Int
-    var title: String
-    var color: Color
-    
-    var id: Int {
-        order
-    }
-}
-
-class Store: ObservableObject {
-    @Published var items: [Item]
-    
-    let colors: [Color] = [.red, .orange, .blue, .teal, .mint, .green, .gray, .indigo, .black]
-
-    // dummy data
-    init() {
-        items = []
-        for i in 0...7 {
-            let new = Item(order: i, title: "Item \(i)", color: colors[i])
-            items.append(new)
+        // dummy data
+        init() {
+            items = []
+            for i in 0...7 {
+                let new = Item(order: i, title: "Item \(i)", color: colors[i])
+                items.append(new)
+            }
         }
     }
 }
 
-
-
-struct ContentView: View {
+struct HorizontalCarousel: View {
     @StateObject var store = Store()
     @State private var snappedItem = 0.0
     @State private var draggingItem = 0.0
@@ -91,4 +83,10 @@ struct ContentView: View {
         return sin(angle) * 200
     }
     
+}
+
+struct HorizontalCarousel_Previews: PreviewProvider {
+    static var previews: some View {
+        HorizontalCarousel()
+    }
 }

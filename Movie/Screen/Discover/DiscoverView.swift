@@ -9,12 +9,19 @@ import SwiftUI
 
 struct DiscoverView: View {
     var body: some View {
-        Text("Discover")
+        VStack {
+            Spacer()
+            MostPopularView()
+            Spacer()
+            NowPlayingView()
+            Spacer()
+        }
     }
 }
 
 struct DiscoverView_Previews: PreviewProvider {
     static var previews: some View {
         DiscoverView()
+            .configure()
     }
 }

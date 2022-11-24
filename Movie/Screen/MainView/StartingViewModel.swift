@@ -9,7 +9,6 @@ import Foundation
 
 @MainActor
 final class StartingViewModel: ObservableObject {
-    let storeService = TMDbStoreService()
     
     enum State {
         case loading
@@ -20,20 +19,17 @@ final class StartingViewModel: ObservableObject {
     @Published
     private(set) var state: State = .loading
     
-    func fetchData() async {
+    func fetchData(using storeService: TMDbStoreService) async {
         self.state = .loading
         Task {
             async let popularMovies =  storeService.fetchPopularMovies()
             async let nowPlaying = storeService.fetchNowPlayingMovies()
             switch (await popularMovies, await nowPlaying) {
             case (.data(_), .error(_)), (.error(_), .data(_)), (.error(_ ), .error(_ )):
+                // Made a behavioral decision here, that if we get error in either of the endpoints then we claim an error state. Ofcourse in a real app, we could always recover and show avaialable data if it makes sense.
                 self.state = .error
-            case (.data(let popularMovies), .data(let nowPlayingMovies)):
-                print("BOB: PopularMovies:", popularMovies)
-                print("BOB: nowPlayingMovies:", nowPlayingMovies)
-//                self.state = .dataRecieved
-                self.state = .error
-
+            case (.data(_ ), .data(_)):
+                self.state = .dataRecieved
             }
         }
     }
