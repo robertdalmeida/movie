@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct FavoritesView: View {
+    @EnvironmentObject var mediaNavigationCoordinator: MediaNavigationCoordinator
+
     var body: some View {
         Text("Favorites")
     }

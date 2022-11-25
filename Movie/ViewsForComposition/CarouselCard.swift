@@ -73,18 +73,24 @@ struct CarouselCard: View {
 extension CarouselCard {
     struct Item: Identifiable {
         let order: Int
-        let title: String
-        let imageURL: URL?
-        let releaseDate: Date?
+        var title: String {
+            mediaReference.title
+        }
+        var imageURL: URL? {
+            mediaReference.image
+        }
+        var releaseDate: Date? {
+            mediaReference.releaseDate
+        }
         var id: Int {
             order
         }
+        
+        var mediaReference: Media
 
 #if DEBUG
         static let mock = Item(order: 1,
-                               title: "Item Title ",
-                               imageURL: .mockImageUrlMargaux,
-                               releaseDate: Date())
+                               mediaReference: .mock)
 #endif
     }
     

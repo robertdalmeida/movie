@@ -17,9 +17,7 @@ extension HorizontalCarousel {
             items = []
             for i in 0..<movies.count {
                 let new = CarouselCard.Item(order: i,
-                                            title: movies[i].title,
-                                            imageURL: movies[i].image,
-                                            releaseDate: movies[i].releaseDate)
+                                            mediaReference: movies[i])
                 items.append(new)
             }
         }
@@ -28,21 +26,28 @@ extension HorizontalCarousel {
 
 struct HorizontalCarousel: View {
     @ObservedObject var store: Store
+    @EnvironmentObject var mediaNavigationCoordinator: MediaNavigationCoordinator
+
     @State private var snappedItem = 0.0
     @State private var draggingItem = 0.0
+    
+    func cardCarousel(_ item: CarouselCard.Item) -> some View {
+        CarouselCard(item: item)
+            .scaleEffect(1.0 - abs(distance(item.order)) * 0.2 )
+            .opacity(1.0 - abs(distance(item.order)) * 0.3 )
+            .offset(x: myXOffset(item.order), y: 0)
+            .zIndex(1.0 - abs(distance(item.order)) * 0.1)
+            .onTapGesture {
+                print("Movie:\(item) tapped")
+                mediaNavigationCoordinator.openMediaDetail(media: item.mediaReference)
+            }
+
+    }
     
     var body: some View {
         ZStack {
             ForEach(store.items) { item in
-                // article view
-                CarouselCard(item: item)
-                    .scaleEffect(1.0 - abs(distance(item.order)) * 0.2 )
-                    .opacity(1.0 - abs(distance(item.order)) * 0.3 )
-                    .offset(x: myXOffset(item.order), y: 0)
-                    .zIndex(1.0 - abs(distance(item.order)) * 0.1)
-                    .onTapGesture {
-                        print("Movie:\(item) tapped")
-                    }
+                cardCarousel(item)
             }
         }
         .gesture(

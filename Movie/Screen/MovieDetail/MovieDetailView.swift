@@ -8,14 +8,37 @@
 import SwiftUI
 
 struct MovieDetailView: View {
+    let media: Media
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack{
+            AsyncImage(url: media.image) { image in
+                image
+                    .resizable()
+                    .scaledToFit()
+            } placeholder: {
+                ProgressView()
+            }
+            HStack {
+                VStack {
+                    Text(media.title)
+                        .applyAppStyle(.title)
+                    if let releaseDate = media.releaseDate {
+                        Text(releaseDate, style: .date)
+                    }
+                }
+                Spacer()
+                Button("Favorite") {
+                    print("Save a Favorite")
+                }
+            }
+            .padding()
+        }.navigationTitle(media.title)
     }
 }
 
 struct MovieDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieDetailView()
+        MovieDetailView(media: .mock)
             .configure()
     }
 }

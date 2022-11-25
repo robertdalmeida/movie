@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MediaCategoryView: View {
     let viewModel: MediaCategoryViewModel
+
     var body: some View {
         VStack {
             HStack {

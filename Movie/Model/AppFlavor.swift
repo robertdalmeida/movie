@@ -23,5 +23,6 @@ extension View {
     func applyAppStyle(_ style: AppFontStyle) -> some View {
         self.fontDesign(style.fontDesign)
             .font(style.font)
+            .bold()
     }
 }
