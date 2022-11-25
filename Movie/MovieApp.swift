@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-actor AppConfiguration: ObservableObject {
+final class AppConfiguration: ObservableObject {
     var storeService = TMDbStoreService()
 }
 

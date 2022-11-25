@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct DiscoverView: View {
+    @EnvironmentObject var appConfiguration: AppConfiguration
+
     var body: some View {
         VStack {
             Spacer()
-            MostPopularView()
+            MediaCategoryView(viewModel: .init(context: .mostPopular,
+                                               movies: appConfiguration.storeService.popularMovies))
             Spacer()
-            NowPlayingView()
+            MediaCategoryView(viewModel:  .init(context: .nowPlaying,
+                                                movies: appConfiguration.storeService.nowPlayingMovies))
             Spacer()
         }
     }
