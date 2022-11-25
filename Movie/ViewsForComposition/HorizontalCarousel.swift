@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 extension HorizontalCarousel {
 
     final class Store: ObservableObject {
@@ -15,7 +16,10 @@ extension HorizontalCarousel {
         init(movies: [Media]) {
             items = []
             for i in 0..<movies.count {
-                let new = CarouselCard.Item(order: i, title: movies[i].title, imageURL: movies[i].image)
+                let new = CarouselCard.Item(order: i,
+                                            title: movies[i].title,
+                                            imageURL: movies[i].image,
+                                            releaseDate: movies[i].releaseDate)
                 items.append(new)
             }
         }
@@ -28,16 +32,17 @@ struct HorizontalCarousel: View {
     @State private var draggingItem = 0.0
     
     var body: some View {
-        
         ZStack {
             ForEach(store.items) { item in
                 // article view
                 CarouselCard(item: item)
-                .frame(width: 300, height: 200)
-                .scaleEffect(1.0 - abs(distance(item.order)) * 0.2 )
-                .opacity(1.0 - abs(distance(item.order)) * 0.3 )
-                .offset(x: myXOffset(item.order), y: 0)
-                .zIndex(1.0 - abs(distance(item.order)) * 0.1)
+                    .scaleEffect(1.0 - abs(distance(item.order)) * 0.2 )
+                    .opacity(1.0 - abs(distance(item.order)) * 0.3 )
+                    .offset(x: myXOffset(item.order), y: 0)
+                    .zIndex(1.0 - abs(distance(item.order)) * 0.1)
+                    .onTapGesture {
+                        print("Movie:\(item) tapped")
+                    }
             }
         }
         .gesture(
@@ -72,6 +77,6 @@ struct HorizontalCarousel: View {
 
 struct HorizontalCarousel_Previews: PreviewProvider {
     static var previews: some View {
-        HorizontalCarousel(store: .init(movies: [.mock, .mock1, .mock2]))
+        HorizontalCarousel(store: .init(movies: [.mock, .mock1, .mock2, .mock3, .mock4, .mock5, .mock6]))
     }
 }

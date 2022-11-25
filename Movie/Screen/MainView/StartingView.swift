@@ -20,6 +20,7 @@ struct StartingView: View {
                                   systemImage: "person.circle")
                         }
                 }
+
             case .error:
                 ErrorView()
                     .onTapGesture {

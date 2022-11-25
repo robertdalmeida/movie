@@ -8,35 +8,83 @@
 import SwiftUI
 
 struct CarouselCard: View {
+    
+    enum Constants {
+        static let frame = CGSizeMake(250, 300)
+        static let imageFrame = CGSizeMake(frame.width, 200)
+        static let cornerRadius: CGFloat = 11.0
+    }
+    
     let item: Item
     var body: some View {
         ZStack {
-            AsyncImage(url: item.imageURL) { image in
-                Text("")
-                image.resizable()
-                    .aspectRatio(contentMode: .fit)
-            } placeholder: {
-                ProgressView()
+            LinearGradient(gradient: Gradient(colors: [Color(.lightGray), .white, Color(.lightGray), .white, Color(.lightGray)]),
+                           startPoint: .top,
+                           endPoint: .bottom)
+
+            VStack {
+                AsyncImage(url: item.imageURL) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: Constants.imageFrame.width,
+                               height: Constants.imageFrame.height,
+                               alignment: .top)
+                        .clipped()
+                        
+                } placeholder: {
+                    Spacer()
+                    ProgressView()
+                    Spacer()
+                }
+                detailsView
             }
-//            RoundedRectangle(cornerRadius: 18)
-//                .fill(item.color)
+            .padding(.bottom)
+        }
+        .frame(width: Constants.frame.width, height: Constants.frame.height)
+        .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
+        .shadow(radius: 3.0)
+    }
+    
+    @ViewBuilder
+    var detailsView: some View {
+        HStack {
             Text(item.title)
-                .padding()
+                .font(.headline)
+                .bold()
+                .truncationMode(.tail)
+                .padding([.leading, .top])
+                .scaledToFit()
+                .lineLimit(2)
+                .allowsTightening(true)
+            Spacer()
+        }
+        if let releaseDate = item.releaseDate {
+            HStack {
+                Text(releaseDate, style: .date)
+                    .foregroundColor(.secondary)
+                    .font(.caption)
+                Spacer()
+            }.padding([.bottom, .leading, .trailing])
         }
     }
 }
 
 extension CarouselCard {
     struct Item: Identifiable {
-        var order: Int
-        var title: String
-        var imageURL: URL?
+        let order: Int
+        let title: String
+        let imageURL: URL?
+        let releaseDate: Date?
         var id: Int {
             order
         }
 
 #if DEBUG
-        static let mock = Item(order: 1, title: "Item Title", imageURL: .mockImageUrlBlackPanther)
+        static let mock = Item(order: 1,
+                               title: "Item Title ",
+                               imageURL: .mockImageUrlMargaux,
+                               releaseDate: Date())
 #endif
     }
     

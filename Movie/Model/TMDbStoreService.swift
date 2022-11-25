@@ -67,7 +67,7 @@ final class TMDbStoreService: ObservableObject {
     
     private func transform(movie: Movie) async -> Media {
         let imageURL = await imageResolutionService.imageService(url: movie.posterPath)
-        return Media(title: movie.title, image: imageURL, id: movie.id)
+        return Media(title: movie.title, image: imageURL, id: movie.id, releaseDate: movie.releaseDate)
     }
     
     func fetchNowPlayingMovies() async -> Status<[Media]>  {

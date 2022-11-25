@@ -20,6 +20,11 @@ struct DiscoverView: View {
                                                 movies: appConfiguration.storeService.nowPlayingMovies))
             Spacer()
         }
+        .background{
+            LinearGradient(gradient: Gradient(colors: [.gray, .white, .gray, .white, Color(.white)]), startPoint: .top, endPoint: .bottom)
+                .scaledToFill()
+                .ignoresSafeArea()
+        }
     }
 }
 
