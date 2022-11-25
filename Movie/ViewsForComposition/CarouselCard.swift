@@ -18,10 +18,10 @@ struct CarouselCard: View {
     let item: Item
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color(.lightGray), .white, Color(.lightGray), .white, Color(.lightGray)]),
-                           startPoint: .top,
-                           endPoint: .bottom)
-
+//            LinearGradient(gradient: Gradient(colors: [Color(.lightGray), .white, Color(.lightGray), .white, Color(.lightGray)]),
+//                           startPoint: .top,
+//                           endPoint: .bottom)
+            Color(.white)
             VStack {
                 AsyncImage(url: item.imageURL) { image in
                     image

@@ -9,15 +9,21 @@ import SwiftUI
 
 struct MovieDetailView: View {
     let media: Media
+    @State var offline = false
     var body: some View {
         VStack{
+            if offline {
+                OfflineIndicator()
+                    .transition(.slide)
+                    .padding()
+            }
             AsyncImage(url: media.image) { image in
                 image
                     .resizable()
                     .scaledToFit()
             } placeholder: {
                 ProgressView()
-            }
+            }.padding([.bottom])
             HStack {
                 VStack {
                     Text(media.title)
