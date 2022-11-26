@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct MovieDetailView: View {
-    let media: Media
+    @EnvironmentObject var favoriteStoreService: FavoritesStore
+    let viewModel: ViewModel
+    
     @State var offline = false
     var body: some View {
         VStack{
@@ -17,7 +19,7 @@ struct MovieDetailView: View {
                     .transition(.slide)
                     .padding()
             }
-            AsyncImage(url: media.image) { image in
+            AsyncImage(url: viewModel.image) { image in
                 image
                     .resizable()
                     .scaledToFit()
@@ -26,25 +28,54 @@ struct MovieDetailView: View {
             }.padding([.bottom])
             HStack {
                 VStack {
-                    Text(media.title)
+                    Text(viewModel.title)
                         .applyAppStyle(.title)
-                    if let releaseDate = media.releaseDate {
+                    if let releaseDate = viewModel.releaseDate {
                         Text(releaseDate, style: .date)
                     }
                 }
                 Spacer()
                 Button("Favorite") {
-                    print("Save a Favorite")
+                    viewModel.favoriteButtonTapped()
                 }
             }
             .padding()
-        }.navigationTitle(media.title)
+        }.navigationTitle(viewModel.title)
+    }
+}
+
+extension MovieDetailView {
+    struct ViewModel {
+        
+        let media: Media
+        let favoriteStoreService: FavoritesStore
+        
+        var title: String {
+            media.title
+        }
+        var releaseDate: Date? {
+            media.releaseDate
+        }
+        var image: URL? {
+            media.image
+        }
+        
+        func favoriteButtonTapped() {
+            Task {
+                do {
+                    try await favoriteStoreService.storage.saveMedia(media: media)
+                } catch {
+                    
+                }
+            }
+        }
     }
 }
 
 struct MovieDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieDetailView(media: .mock)
+        MovieDetailView(viewModel: .init(media: .mock,
+                                         favoriteStoreService: .mock))
             .configure()
     }
 }

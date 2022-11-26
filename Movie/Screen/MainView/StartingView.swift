@@ -23,11 +23,14 @@ struct StartingView: View {
                                 Label(Localised.discoverTabBarItemTitle,
                                       systemImage: "list.dash")
                             }
-                        FavoritesView()
+                            .environmentObject(appConfiguration.favoriteService)
+
+                        FavoritesView(viewModel: .init(favoriteStoreService: appConfiguration.favoriteService))
                             .tabItem {
                                 Label(Localised.favoriteTabBarItemTitle,
                                       systemImage: "person.circle")
                             }
+                            .environmentObject(appConfiguration.favoriteService)
                     }
 
                 case .error:
@@ -40,8 +43,11 @@ struct StartingView: View {
                 }
             }
             .navigationDestination(for: Media.self) { media in
-                MovieDetailView(media: media)
-            }.environmentObject(mediaNavigationCoordinator)
+                MovieDetailView(viewModel: .init(media: media,
+                                                 favoriteStoreService: appConfiguration.favoriteService))
+            }
+            .environmentObject(mediaNavigationCoordinator)
+            
         }
         .task {
             fectchInitializationData()

@@ -9,6 +9,7 @@ import SwiftUI
 
 final class AppConfiguration: ObservableObject {
     var storeService = TMDbStoreService()
+    var favoriteService = FavoritesStore()
 }
 
 @main

@@ -23,7 +23,8 @@
 		140644AF292F2D12003346F3 /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140644AE292F2D12003346F3 /* MovieDetailView.swift */; };
 		140644B2292F338A003346F3 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140644B1292F338A003346F3 /* ErrorView.swift */; };
 		141BE6092930FC74000144AC /* OfflineIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141BE6082930FC74000144AC /* OfflineIndicator.swift */; };
-		14898B5B292F5CBC00018A5E /* Localizatioin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14898B5A292F5CBC00018A5E /* Localizatioin.swift */; };
+		141BE60B2930FE60000144AC /* FavoriteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141BE60A2930FE60000144AC /* FavoriteStore.swift */; };
+		14898B5B292F5CBC00018A5E /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14898B5A292F5CBC00018A5E /* Localization.swift */; };
 		14898B5F292F623A00018A5E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 14898B61292F623A00018A5E /* Localizable.strings */; };
 		14898B65292F755C00018A5E /* HorizontalCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14898B64292F755C00018A5E /* HorizontalCarousel.swift */; };
 		14898B67292F756C00018A5E /* CarouselCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14898B66292F756C00018A5E /* CarouselCard.swift */; };
@@ -70,7 +71,8 @@
 		140644AE292F2D12003346F3 /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
 		140644B1292F338A003346F3 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		141BE6082930FC74000144AC /* OfflineIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineIndicator.swift; sourceTree = "<group>"; };
-		14898B5A292F5CBC00018A5E /* Localizatioin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localizatioin.swift; sourceTree = "<group>"; };
+		141BE60A2930FE60000144AC /* FavoriteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStore.swift; sourceTree = "<group>"; };
+		14898B5A292F5CBC00018A5E /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		14898B60292F623A00018A5E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		14898B62292F624800018A5E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		14898B64292F755C00018A5E /* HorizontalCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCarousel.swift; sourceTree = "<group>"; };
@@ -173,9 +175,10 @@
 			isa = PBXGroup;
 			children = (
 				1406449E292F143E003346F3 /* TMDbStoreService.swift */,
-				14898B5A292F5CBC00018A5E /* Localizatioin.swift */,
+				14898B5A292F5CBC00018A5E /* Localization.swift */,
 				14898B6E292F840D00018A5E /* AppFlavor.swift */,
 				14898B702930637F00018A5E /* Media.swift */,
+				141BE60A2930FE60000144AC /* FavoriteStore.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -408,8 +411,9 @@
 				14898B6F292F840D00018A5E /* AppFlavor.swift in Sources */,
 				141BE6092930FC74000144AC /* OfflineIndicator.swift in Sources */,
 				14898B712930637F00018A5E /* Media.swift in Sources */,
+				141BE60B2930FE60000144AC /* FavoriteStore.swift in Sources */,
 				14064473292E4C37003346F3 /* ContentView.swift in Sources */,
-				14898B5B292F5CBC00018A5E /* Localizatioin.swift in Sources */,
+				14898B5B292F5CBC00018A5E /* Localization.swift in Sources */,
 				14898B78293079C600018A5E /* MediaCategoryView.swift in Sources */,
 				140644AC292F1BDA003346F3 /* DiscoverView.swift in Sources */,
 				14064471292E4C37003346F3 /* MovieApp.swift in Sources */,
