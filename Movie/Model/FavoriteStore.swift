@@ -99,6 +99,26 @@ final class FavoritesStore: ObservableObject {
         }
     }
     
+    func saveFavorite(media: Media) async throws {
+        self.status = .fetched(mediaContents: try await storage.saveMedia(media: media))
+    }
+    
+    func removeFavorite(media: Media) async throws {
+        self.status = .fetched(mediaContents: try await storage.removeMedia(media: media))
+    }
+    
+    func isMediaAFavorite(media: Media) -> Bool {
+        switch status {
+        case .inProgress:
+            // Good to know place of failure, we could always keep the instance of Task and return its value.
+            return false
+        case .fetched(mediaContents: let mediaContents):
+            return mediaContents.contains { savedMedia in
+                savedMedia.id == media.id
+            }
+        }
+    }
+    
     #if DEBUG
     static let mock = FavoritesStore()
     #endif

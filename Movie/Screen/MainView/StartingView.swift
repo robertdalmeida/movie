@@ -44,7 +44,8 @@ struct StartingView: View {
             }
             .navigationDestination(for: Media.self) { media in
                 MovieDetailView(viewModel: .init(media: media,
-                                                 favoriteStoreService: appConfiguration.favoriteService))
+                                                 favoriteStoreService: appConfiguration.favoriteService,
+                                                 offline: false))
             }
             .environmentObject(mediaNavigationCoordinator)
             

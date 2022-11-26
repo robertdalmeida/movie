@@ -11,7 +11,7 @@ import Combine
 struct FavoritesView: View {
     @EnvironmentObject var appConfiguration: AppConfiguration
     @ObservedObject var viewModel: ViewModel
-
+    
     var body: some View {
         VStack {
             Text("Favorites")
@@ -20,7 +20,8 @@ struct FavoritesView: View {
                 ForEach(viewModel.favorites) { item in
                     NavigationLink {
                         MovieDetailView(viewModel: .init(media: item,
-                                                         favoriteStoreService: appConfiguration.favoriteService))
+                                                         favoriteStoreService: appConfiguration.favoriteService,
+                                                         offline: false))
                     } label: {
                         FavoriteRow(item: item)
                     }
@@ -29,7 +30,6 @@ struct FavoritesView: View {
             .listStyle(.insetGrouped)
         }
     }
-    
 }
 
 extension FavoritesView {
@@ -43,6 +43,7 @@ extension FavoritesView {
             favoriteStoreService.initialize()
             favoriteStoreService.$status.receive(on: RunLoop.main)
                 .sink { status in
+                    print("BOB: \(#function)")
                     switch status {
                     case .fetched(mediaContents: let favorites):
                         self.favorites = favorites
@@ -55,10 +56,11 @@ extension FavoritesView {
         
         func deleteFavorite(at offsets: IndexSet) {
             let objectsToRemove = offsets.map { favorites[$0] }
-            objectsToRemove.forEach { media in
-                Task {
-                    try? await favoriteStoreService.storage.removeMedia(media: media)
+            Task {
+                try await objectsToRemove.asyncForEach { media in
+                    try await favoriteStoreService.storage.removeMedia(media: media)
                 }
+                favoriteStoreService.initialize()
             }
             favorites.remove(atOffsets: offsets)
         }

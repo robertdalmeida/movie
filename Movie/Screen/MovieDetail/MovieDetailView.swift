@@ -8,13 +8,11 @@
 import SwiftUI
 
 struct MovieDetailView: View {
-    @EnvironmentObject var favoriteStoreService: FavoritesStore
-    let viewModel: ViewModel
+    @ObservedObject var viewModel: ViewModel
     
-    @State var offline = false
     var body: some View {
         VStack{
-            if offline {
+            if viewModel.offline {
                 OfflineIndicator()
                     .transition(.slide)
                     .padding()
@@ -35,8 +33,15 @@ struct MovieDetailView: View {
                     }
                 }
                 Spacer()
-                Button("Favorite") {
+                Button {
                     viewModel.favoriteButtonTapped()
+                } label: {
+                    if viewModel.isFavorite {
+                        Image(systemName: "heart.fill")
+                    } else {
+                        Image(systemName: "heart")
+                    }
+                    
                 }
             }
             .padding()
@@ -45,10 +50,12 @@ struct MovieDetailView: View {
 }
 
 extension MovieDetailView {
-    struct ViewModel {
-        
+    @MainActor
+    final class ViewModel: ObservableObject {
         let media: Media
         let favoriteStoreService: FavoritesStore
+        
+        var offline: Bool = false
         
         var title: String {
             media.title
@@ -60,10 +67,26 @@ extension MovieDetailView {
             media.image
         }
         
+        var isFavorite: Bool {
+            favoriteStoreService.isMediaAFavorite(media: media)
+        }
+        
+        init(media: Media, favoriteStoreService: FavoritesStore, offline: Bool) {
+            self.media = media
+            self.favoriteStoreService = favoriteStoreService
+            self.offline = offline
+        }
+        
         func favoriteButtonTapped() {
             Task {
                 do {
-                    try await favoriteStoreService.storage.saveMedia(media: media)
+                    if isFavorite {
+                        try await favoriteStoreService.removeFavorite(media: media)
+                    } else {
+                        try await favoriteStoreService.saveFavorite(media: media)
+                    }
+                    objectWillChange.send()
+
                 } catch {
                     
                 }
@@ -75,7 +98,7 @@ extension MovieDetailView {
 struct MovieDetailView_Previews: PreviewProvider {
     static var previews: some View {
         MovieDetailView(viewModel: .init(media: .mock,
-                                         favoriteStoreService: .mock))
+                                         favoriteStoreService: .mock, offline: false))
             .configure()
     }
 }

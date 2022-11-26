@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		14064471292E4C37003346F3 /* MovieApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14064470292E4C37003346F3 /* MovieApp.swift */; };
-		14064473292E4C37003346F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14064472292E4C37003346F3 /* ContentView.swift */; };
 		14064475292E4C3A003346F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14064474292E4C3A003346F3 /* Assets.xcassets */; };
 		14064478292E4C3A003346F3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14064477292E4C3A003346F3 /* Preview Assets.xcassets */; };
 		14064482292E4C3A003346F3 /* MovieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14064481292E4C3A003346F3 /* MovieTests.swift */; };
@@ -56,7 +55,6 @@
 /* Begin PBXFileReference section */
 		1406446D292E4C37003346F3 /* Movie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14064470292E4C37003346F3 /* MovieApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieApp.swift; sourceTree = "<group>"; };
-		14064472292E4C37003346F3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		14064474292E4C3A003346F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		14064477292E4C3A003346F3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1406447D292E4C3A003346F3 /* MovieTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -135,13 +133,12 @@
 		1406446F292E4C37003346F3 /* Movie */ = {
 			isa = PBXGroup;
 			children = (
-				14898B72293074C500018A5E /* AppExtensions */,
-				14898B63292F753500018A5E /* ViewsForComposition */,
-				14898B5C292F622500018A5E /* Resources */,
+				14064470292E4C37003346F3 /* MovieApp.swift */,
 				140644A1292F19E1003346F3 /* Screen */,
 				1406449D292F141D003346F3 /* Model */,
-				14064470292E4C37003346F3 /* MovieApp.swift */,
-				14064472292E4C37003346F3 /* ContentView.swift */,
+				14898B63292F753500018A5E /* ViewsForComposition */,
+				14898B72293074C500018A5E /* AppExtensions */,
+				14898B5C292F622500018A5E /* Resources */,
 				14064474292E4C3A003346F3 /* Assets.xcassets */,
 				14064476292E4C3A003346F3 /* Preview Content */,
 			);
@@ -416,7 +413,6 @@
 				141BE6092930FC74000144AC /* OfflineIndicator.swift in Sources */,
 				14898B712930637F00018A5E /* Media.swift in Sources */,
 				141BE60B2930FE60000144AC /* FavoriteStore.swift in Sources */,
-				14064473292E4C37003346F3 /* ContentView.swift in Sources */,
 				14898B5B292F5CBC00018A5E /* Localization.swift in Sources */,
 				14898B78293079C600018A5E /* MediaCategoryView.swift in Sources */,
 				140644AC292F1BDA003346F3 /* DiscoverView.swift in Sources */,

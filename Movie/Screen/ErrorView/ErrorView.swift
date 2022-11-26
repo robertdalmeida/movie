@@ -11,6 +11,7 @@ struct ErrorView: View {
     var body: some View {
         Spacer()
         Text("⚠️")
+            .font(.title)
         Spacer()
     }
 }
