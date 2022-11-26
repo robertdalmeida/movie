@@ -11,31 +11,35 @@ import Combine
 struct FavoritesView: View {
     @EnvironmentObject var appConfiguration: AppConfiguration
     @ObservedObject var viewModel: ViewModel
-    @EnvironmentObject var mediaNavigationCoordinator: MediaNavigationCoordinator
 
     var body: some View {
-        List(viewModel.favorites) { item in
-            NavigationLink {
-                MovieDetailView(viewModel: .init(media: item,
-                                                 favoriteStoreService: appConfiguration.favoriteService))
-            } label: {
-                HStack{
-                    Text(item.title)
-                    if let date = item.releaseDate {
-                        Text(date, style: .date)
+        VStack {
+            Text("Favorites")
+                .applyAppStyle(.title)
+            List {
+                ForEach(viewModel.favorites) { item in
+                    NavigationLink {
+                        MovieDetailView(viewModel: .init(media: item,
+                                                         favoriteStoreService: appConfiguration.favoriteService))
+                    } label: {
+                        FavoriteRow(item: item)
                     }
-                }
+                }.onDelete(perform: viewModel.deleteFavorite(at:))
             }
+            .listStyle(.insetGrouped)
         }
     }
+    
 }
 
 extension FavoritesView {
     final class ViewModel: ObservableObject {
         @Published var favorites: [Media] = []
+        let favoriteStoreService: FavoritesStore
+        private var anyCancellables: [AnyCancellable] = []
         
-        var anyCancellables: [AnyCancellable] = []
         init(favoriteStoreService: FavoritesStore) {
+            self.favoriteStoreService = favoriteStoreService
             favoriteStoreService.initialize()
             favoriteStoreService.$status.receive(on: RunLoop.main)
                 .sink { status in
@@ -48,6 +52,17 @@ extension FavoritesView {
                     }
                 }.store(in: &anyCancellables)
         }
+        
+        func deleteFavorite(at offsets: IndexSet) {
+            let objectsToRemove = offsets.map { favorites[$0] }
+            objectsToRemove.forEach { media in
+                Task {
+                    try? await favoriteStoreService.storage.removeMedia(media: media)
+                }
+            }
+            favorites.remove(atOffsets: offsets)
+        }
+        
         
         #if DEBUG
         static var mock: ViewModel = {
