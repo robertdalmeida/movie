@@ -32,14 +32,20 @@ struct Localizable {
 extension Localizable {
     enum LocalizableKey: String {
         case welcomeScreenTitle = "app.title"
-        case buttonTitle = "button.title"
+        
+        case nowPlayingTitle = "nowPlaying.title"
+        case mostPopularTitle = "mostPopular.title"
+
         case favoriteTabBarItemTitle = "favoriteTabBarItem.title"
         case discoverTabBarItemTitle = "discoverTabBarItemTitle.title"
 
         var defaultValue: String {
             switch self {
             case .welcomeScreenTitle: return "Hello"
-            case .buttonTitle: return "Button Title"
+            
+            case .nowPlayingTitle: return "Now Playing"
+            case .mostPopularTitle: return "Most Popular"
+
             case .favoriteTabBarItemTitle: return "Favorites"
             case .discoverTabBarItemTitle: return "Discover"
             }
@@ -51,4 +57,9 @@ enum Localised {
     @Localizable(key: .welcomeScreenTitle) static var welcomeScreenTitle
     @Localizable(key: .favoriteTabBarItemTitle) static var favoriteTabBarItemTitle
     @Localizable(key: .discoverTabBarItemTitle) static var discoverTabBarItemTitle
+
+    @Localizable(key: .nowPlayingTitle) static var nowPlayingTitle
+    @Localizable(key: .mostPopularTitle) static var mostPopularTitle
+
+
 }

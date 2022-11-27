@@ -1,24 +1,27 @@
-//
-//  MovieApp.swift
-//  Movie
-//
-//  Created by Robert D'Almeida on 23/11/2022.
-//
-
 import SwiftUI
 
-final class AppConfiguration: ObservableObject {
-    var storeService = TMDbStoreService()
-    var favoriteService = FavoritesStore()
+final class AppDependencies: ObservableObject {
+    let storeService: TMDbStoreService
+    let favoriteService: FavoritesStore
+
+    init(storeService: TMDbStoreService = TMDbStoreService(),
+         favoriteService: FavoritesStore = FavoritesStore()) {
+        self.storeService = storeService
+        self.favoriteService = favoriteService
+    }
+    
+#if DEBUG
+    static let mock = AppDependencies(storeService: .mock(), favoriteService: .mock)
+#endif
 }
 
 @main
 struct MovieApp: App {
-    @StateObject var appConfiguration = AppConfiguration()
+    @StateObject var appDependencies = AppDependencies()
     var body: some Scene {
         WindowGroup {
-            StartingView()
-                .environmentObject(appConfiguration)
+            StartingView(viewModel: .init(appDependencies: appDependencies))
+                .environmentObject(appDependencies)
         }
     }
 }
@@ -26,7 +29,7 @@ struct MovieApp: App {
 #if DEBUG
 extension View {
     func configure() -> some View {
-        self.environmentObject(AppConfiguration())
+        self.environmentObject(AppDependencies())
     }
 }
 #endif

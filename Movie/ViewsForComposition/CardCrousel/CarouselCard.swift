@@ -21,7 +21,7 @@ struct CarouselCard: View {
 //            LinearGradient(gradient: Gradient(colors: [Color(.lightGray), .white, Color(.lightGray), .white, Color(.lightGray)]),
 //                           startPoint: .top,
 //                           endPoint: .bottom)
-            Color(.white)
+            Color(.secondarySystemBackground)
             VStack {
                 AsyncImage(url: item.imageURL) { image in
                     image

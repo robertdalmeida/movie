@@ -1,70 +1,71 @@
 import SwiftUI
 
-final class MediaNavigationCoordinator: ObservableObject {
-    @Published var navigationPath = NavigationPath()
-    func openMediaDetail(media: Media) {
-        navigationPath.append(media)
-    }
-}
-
 struct StartingView: View {
-    @EnvironmentObject var appConfiguration: AppConfiguration
-    @StateObject var viewModel: StartingViewModel = StartingViewModel()
+    @EnvironmentObject var appDependencies: AppDependencies
+    @ObservedObject var viewModel: StartingViewModel
     @ObservedObject var mediaNavigationCoordinator = MediaNavigationCoordinator()
     
     var body: some View {
         NavigationStack(path: $mediaNavigationCoordinator.navigationPath) {
             ZStack {
                 switch viewModel.state {
-                case .dataRecieved:
-                    TabView {
-                        DiscoverView()
-                            .tabItem {
-                                Label(Localised.discoverTabBarItemTitle,
-                                      systemImage: "list.dash")
-                            }
-                            .environmentObject(appConfiguration.favoriteService)
-
-                        FavoritesView(viewModel: .init(favoriteStoreService: appConfiguration.favoriteService))
-                            .tabItem {
-                                Label(Localised.favoriteTabBarItemTitle,
-                                      systemImage: "person.circle")
-                            }
-                            .environmentObject(appConfiguration.favoriteService)
-                    }
-
+                case .dataRecieved,
+                        .showLocalData:
+                    tabView
                 case .error:
-                    ErrorView()
-                        .onTapGesture {
-                            fectchInitializationData()
-                        }
+                    errorView
                 case .loading:
-                    ProgressView()
+                    loadingView
                 }
             }
-            .navigationDestination(for: Media.self) { media in
-                MovieDetailView(viewModel: .init(media: media,
-                                                 favoriteStoreService: appConfiguration.favoriteService,
+            .navigationDestination(for: Media.self) {
+                MovieDetailView(viewModel: .init(media: $0,
+                                                 favoriteStoreService: appDependencies.favoriteService,
                                                  offline: false))
             }
             .environmentObject(mediaNavigationCoordinator)
-            
         }
         .task {
-            fectchInitializationData()
+            await viewModel.initiateStartSequence()
         }
     }
     
-    func fectchInitializationData() {
-        Task {
-            await viewModel.fetchData(using: appConfiguration.storeService)
+    // MARK: -  helper views
+    var tabView: some View {
+        TabView {
+            DiscoverView()
+                .tabItem {
+                    Label(Localised.discoverTabBarItemTitle,
+                          systemImage: "list.dash")
+                }
+                .environmentObject(appDependencies.favoriteService)
+
+            FavoritesView(viewModel: .init(favoriteStoreService: appDependencies.favoriteService))
+                .tabItem {
+                    Label(Localised.favoriteTabBarItemTitle,
+                          systemImage: "person.circle")
+                }
+                .environmentObject(appDependencies.favoriteService)
         }
+    }
+    
+    var errorView: some View {
+        ErrorView(message: "I don't have anything to display - keep tapping me to retry.")
+            .onTapGesture {
+                Task {
+                    await viewModel.initiateStartSequence()
+                }
+            }
+    }
+    
+    var loadingView: some View {
+        ProgressView()
     }
 }
 
 struct StartingView_Previews: PreviewProvider {
     static var previews: some View {
-        StartingView()
+        StartingView(viewModel: .init(appDependencies: .mock))
             .configure()
     }
 }

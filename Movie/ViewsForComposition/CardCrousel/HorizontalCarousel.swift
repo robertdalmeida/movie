@@ -13,11 +13,11 @@ extension HorizontalCarousel {
     final class Store: ObservableObject {
         @Published var items: [CarouselCard.Item]
 
-        init(movies: [Media]) {
+        init(mediaItems: [Media]) {
             items = []
-            for i in 0..<movies.count {
+            for i in 0..<mediaItems.count {
                 let new = CarouselCard.Item(order: i,
-                                            mediaReference: movies[i])
+                                            mediaReference: mediaItems[i])
                 items.append(new)
             }
         }
@@ -39,7 +39,7 @@ struct HorizontalCarousel: View {
             .zIndex(1.0 - abs(distance(item.order)) * 0.1)
             .onTapGesture {
                 print("Movie:\(item) tapped")
-                mediaNavigationCoordinator.openMediaDetail(media: item.mediaReference)
+                mediaNavigationCoordinator.navigateDetail(media: item.mediaReference)
             }
 
     }
@@ -82,6 +82,6 @@ struct HorizontalCarousel: View {
 
 struct HorizontalCarousel_Previews: PreviewProvider {
     static var previews: some View {
-        HorizontalCarousel(store: .init(movies: [.mock, .mock1, .mock2, .mock3, .mock4, .mock5, .mock6]))
+        HorizontalCarousel(store: .init(mediaItems: [.mock, .mock1, .mock2, .mock3, .mock4, .mock5, .mock6]))
     }
 }

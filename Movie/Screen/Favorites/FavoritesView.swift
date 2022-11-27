@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 struct FavoritesView: View {
-    @EnvironmentObject var appConfiguration: AppConfiguration
+    @EnvironmentObject var appDependencies: AppDependencies
     @ObservedObject var viewModel: ViewModel
     
     var body: some View {
@@ -20,7 +20,7 @@ struct FavoritesView: View {
                 ForEach(viewModel.favorites) { item in
                     NavigationLink {
                         MovieDetailView(viewModel: .init(media: item,
-                                                         favoriteStoreService: appConfiguration.favoriteService,
+                                                         favoriteStoreService: appDependencies.favoriteService,
                                                          offline: false))
                     } label: {
                         FavoriteRow(item: item)
@@ -40,7 +40,7 @@ extension FavoritesView {
         
         init(favoriteStoreService: FavoritesStore) {
             self.favoriteStoreService = favoriteStoreService
-            favoriteStoreService.initialize()
+
             favoriteStoreService.$status.receive(on: RunLoop.main)
                 .sink { status in
                     print("BOB: \(#function)")
@@ -58,9 +58,9 @@ extension FavoritesView {
             let objectsToRemove = offsets.map { favorites[$0] }
             Task {
                 try await objectsToRemove.asyncForEach { media in
-                    try await favoriteStoreService.storage.removeMedia(media: media)
+                    try await favoriteStoreService.removeFavorite(media: media)
                 }
-                favoriteStoreService.initialize()
+                try await favoriteStoreService.initialize()
             }
             favorites.remove(atOffsets: offsets)
         }

@@ -37,6 +37,7 @@ struct FileStorageService<T: Storable>: Persistable {
     
     private func load() throws -> [T] {
         var storedValues: [T] = []
+        try createFavoriteDirectoryIfNecessary()
         for url in try urlsAtPath() {
             if let value = try transform(url: url) {
                 storedValues.append(value)
@@ -50,12 +51,13 @@ struct FileStorageService<T: Storable>: Persistable {
         let decoded = try JSONDecoder().decode(T.self, from: data)
         return decoded
     }
+    
     func saveMedia(media: T) async throws -> [T] {
         do {
             try createFavoriteDirectoryIfNecessary()
             let encoded = try JSONEncoder().encode(media)
             if let fileURL = try fileURL(object: media) {
-                try encoded.write(to: fileURL)
+                try encoded.write(to: fileURL, options: .completeFileProtection)
             }
             return try load()
         } catch {
@@ -81,7 +83,9 @@ struct FileStorageService<T: Storable>: Persistable {
         }
     }
 }
+
 typealias Storable = Decodable & Encodable & Identifiable
+
 final class FavoritesStore: ObservableObject {
     let storage: FileStorageService<Media> = .init(folderName: "Favorites")
     
@@ -92,10 +96,16 @@ final class FavoritesStore: ObservableObject {
     
     @Published var status: Status = .inProgress
     
-    func initialize() {
+    @discardableResult
+    func initialize() async -> Result<Void, Error> {
         self.status = .inProgress
-        Task {
-            status = .fetched(mediaContents: try await storage.fetchStoredMedia())
+        do {
+            self.status = .fetched(mediaContents: try await Task {
+                try await storage.fetchStoredMedia()
+            }.value)
+            return .success(Void())
+        } catch {
+            return .failure(error)
         }
     }
     
