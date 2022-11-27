@@ -26,6 +26,10 @@ extension MediaDetailView {
             media.image
         }
         
+        var userRating: Double {
+            (media.voteAverage ?? 0) * 0.1
+        }
+        
         init(media: Media, favoriteStoreService: FavoritesStore, offline: Bool) {
             self.media = media
             self.favoriteStoreService = favoriteStoreService

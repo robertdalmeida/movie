@@ -13,7 +13,7 @@ struct Media: Hashable, Codable, Identifiable {
     let overview: String?
     let backdropPath: URL?
     let popularity: Double?
-    let voteAverage: Double?
+    let voteAverage: Double? // User Score
     let adult: Bool?
     let genres: [String]?
 }
@@ -48,7 +48,7 @@ extension Media {
                             popularity: 16093.223,
                             voteAverage: 7.2,
                             adult: false,
-                            genres: ["Drama" ,"Action & Adventure"])
+                            genres: ["Drama" ,"Action & Adventure", "Drama" ,"Action & Adventure", "Romance"])
     static let mock1 = Media(title: "R.I.P.D. 2: Rise of the Damned",
                              image: .mockImageUrlRiseOfTheDamned,
                              id: 1234,

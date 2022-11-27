@@ -3,7 +3,7 @@ import SwiftUI
 struct MediaDetailView: View {
     
     enum Constants {
-        static let favoriteButtonSize = CGSizeMake(30, 30)
+        static let favoriteButtonSize = CGSizeMake(25, 25)
     }
     @ObservedObject var viewModel: ViewModel
     
@@ -11,7 +11,8 @@ struct MediaDetailView: View {
         ScrollView {
             VStack{
                 mediaPoster
-                movieHeader
+                mediaTitleRow
+                releaseDateAndRating
                 genreView
                 movieDetails
             }
@@ -33,34 +34,34 @@ struct MediaDetailView: View {
                 ProgressView()
                 Spacer()
             }
-            .padding()
+            .padding([.leading, .trailing, .top])
         }
-
-        
     }
     
-    var movieHeader: some View {
+    var releaseDateAndRating: some View {
         HStack {
-            mediaTitle
+            releaseDate
+                .padding([.leading, .trailing])
             Spacer()
-            favoriteButton
+            userRating
         }
-        .padding()
     }
     
     var genreView: some View {
-        HStack {
-            if let genres = viewModel.media.genres {
-                ForEach(genres, id: \.self){ genre in
-                    Text(genre)
-                        .padding(EdgeInsets(top: 4, leading: 6, bottom: 4, trailing: 6))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(Color(.systemGray), lineWidth: 1)
-                        )
+        ScrollView(.horizontal, showsIndicators: false)  {
+            HStack {
+                if let genres = viewModel.media.genres {
+                    ForEach(genres, id: \.self){ genre in
+                        Text(genre)
+                            .padding(EdgeInsets(top: 4, leading: 6, bottom: 4, trailing: 6))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(Color(.systemGray), lineWidth: 1)
+                            )
 
+                    }
+                    Spacer()
                 }
-                Spacer()
             }
         }
         .padding([.leading, .trailing])
@@ -75,17 +76,39 @@ struct MediaDetailView: View {
         }
     }
     
-    var mediaTitle: some View {
-        VStack {
-            HStack {
-                Text(viewModel.title)
-                    .applyAppStyle(.title)
-                Spacer()
-            }
+    var mediaTitleRow: some View {
+        HStack {
+            Text(viewModel.title)
+                .applyAppStyle(.title)
+                .padding([.leading, .trailing])
+            Spacer()
+            favoriteButton
+                .padding([.leading, .trailing])
+        }
+    }
+    var userRating: some View {
+        HStack {
+            CircularIndicator(progress: viewModel.userRating)
+                .frame(width: 30, height: 30)
+            Text("User Score")
+                .font(.caption)
+                .frame(width: 40)
+                .padding([.trailing])
+        }
+    }
+    var releaseDate: some View {
+        HStack {
             if let releaseDate = viewModel.releaseDate {
-                HStack {
-                    Text(releaseDate, style: .date)
-                    Spacer()
+                VStack {
+                    HStack {
+                        Text("Release date:")
+                            .font(.footnote)
+                        Spacer()
+                    }
+                    HStack {
+                        Text(releaseDate, style: .date)
+                        Spacer()
+                    }
                 }
             }
         }

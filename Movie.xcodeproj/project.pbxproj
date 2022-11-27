@@ -36,6 +36,7 @@
 		14898B74293074DC00018A5E /* Sequence+AsycMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14898B73293074DC00018A5E /* Sequence+AsycMap.swift */; };
 		14898B76293078D400018A5E /* URL+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14898B75293078D400018A5E /* URL+Mocks.swift */; };
 		14898B78293079C600018A5E /* DiscoverSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14898B77293079C600018A5E /* DiscoverSection.swift */; };
+		14E0692329341E8800CBF5E5 /* CircularIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E0692229341E8800CBF5E5 /* CircularIndicator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		14898B73293074DC00018A5E /* Sequence+AsycMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+AsycMap.swift"; sourceTree = "<group>"; };
 		14898B75293078D400018A5E /* URL+Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Mocks.swift"; sourceTree = "<group>"; };
 		14898B77293079C600018A5E /* DiscoverSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverSection.swift; sourceTree = "<group>"; };
+		14E0692229341E8800CBF5E5 /* CircularIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularIndicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -292,6 +294,7 @@
 			children = (
 				141BE60E2932C8E0000144AC /* CardCrousel */,
 				141BE6082930FC74000144AC /* OfflineIndicator.swift */,
+				14E0692229341E8800CBF5E5 /* CircularIndicator.swift */,
 			);
 			path = ViewsForComposition;
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 				14898B67292F756C00018A5E /* CarouselCard.swift in Sources */,
 				140644A6292F1A04003346F3 /* StartingView+ViewModel.swift in Sources */,
 				14898B65292F755C00018A5E /* HorizontalCarousel.swift in Sources */,
+				14E0692329341E8800CBF5E5 /* CircularIndicator.swift in Sources */,
 				141BE60D29326672000144AC /* FavoriteRow.swift in Sources */,
 				14898B74293074DC00018A5E /* Sequence+AsycMap.swift in Sources */,
 				141BE6172933050B000144AC /* MediaDetailView+ViewModel.swift in Sources */,
