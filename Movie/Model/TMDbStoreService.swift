@@ -1,10 +1,3 @@
-//
-//  TMDbStoreService.swift
-//  Movie
-//
-//  Created by Robert D'Almeida on 24/11/2022.
-//
-
 import Foundation
 import struct TMDb.Movie
 import class TMDb.TMDbAPI

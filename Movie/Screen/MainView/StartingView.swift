@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// The main view of the application that houses the tabview and the containing views.
 struct StartingView: View {
     @EnvironmentObject var appDependencies: AppDependencies
     @ObservedObject var viewModel: StartingViewModel
@@ -7,17 +8,7 @@ struct StartingView: View {
     
     var body: some View {
         NavigationStack(path: $mediaNavigationCoordinator.navigationPath) {
-            ZStack {
-                switch viewModel.state {
-                case .dataRecieved,
-                        .showLocalData:
-                    tabView
-                case .error:
-                    errorView
-                case .loading:
-                    loadingView
-                }
-            }
+            ZStack{ view }
             .navigationDestination(for: Media.self) {
                 MovieDetailView(viewModel: .init(media: $0,
                                                  favoriteStoreService: appDependencies.favoriteService,
@@ -31,7 +22,21 @@ struct StartingView: View {
     }
     
     // MARK: -  helper views
-    var tabView: some View {
+    
+    @ViewBuilder
+    private var view: some View {
+        switch viewModel.state {
+        case .dataRecieved,
+                .showLocalData:
+            tabView
+        case .error:
+            errorView
+        case .loading:
+            loadingView
+        }
+    }
+    
+    private var tabView: some View {
         TabView {
             DiscoverView()
                 .tabItem {
@@ -49,7 +54,7 @@ struct StartingView: View {
         }
     }
     
-    var errorView: some View {
+    private var errorView: some View {
         ErrorView(message: "I don't have anything to display - keep tapping me to retry.")
             .onTapGesture {
                 Task {
@@ -58,7 +63,7 @@ struct StartingView: View {
             }
     }
     
-    var loadingView: some View {
+    private var loadingView: some View {
         ProgressView()
     }
 }
