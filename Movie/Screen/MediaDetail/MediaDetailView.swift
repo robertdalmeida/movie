@@ -10,12 +10,9 @@ struct MediaDetailView: View {
     var body: some View {
         ScrollView {
             VStack{
-                if viewModel.offline {
-                    OfflineIndicator()
-                        .ignoresSafeArea()
-                }
                 mediaPoster
                 movieHeader
+                genreView
                 movieDetails
             }
         }
@@ -49,6 +46,24 @@ struct MediaDetailView: View {
             favoriteButton
         }
         .padding()
+    }
+    
+    var genreView: some View {
+        HStack {
+            if let genres = viewModel.media.genres {
+                ForEach(genres, id: \.self){ genre in
+                    Text(genre)
+                        .padding(EdgeInsets(top: 4, leading: 6, bottom: 4, trailing: 6))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16)
+                                .stroke(Color(.systemGray), lineWidth: 1)
+                        )
+
+                }
+                Spacer()
+            }
+        }
+        .padding([.leading, .trailing])
     }
     
     @ViewBuilder

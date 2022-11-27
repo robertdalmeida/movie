@@ -15,6 +15,7 @@ struct Media: Hashable, Codable, Identifiable {
     let popularity: Double?
     let voteAverage: Double?
     let adult: Bool?
+    let genres: [String]?
 }
 
 #if DEBUG
@@ -33,7 +34,8 @@ extension Media {
                   backdropPath: nil,
                   popularity: 10.4,
                   voteAverage: 9.4,
-                  adult: true)
+                  adult: true,
+                  genres: [])
     }
     static let mock = Media(title: "Black Adam",
                             image: .mockImageUrlBlackAdam,
@@ -45,7 +47,8 @@ extension Media {
                             backdropPath: .mockBackdropImageURL,
                             popularity: 16093.223,
                             voteAverage: 7.2,
-                            adult: false)
+                            adult: false,
+                            genres: ["Drama" ,"Action & Adventure"])
     static let mock1 = Media(title: "R.I.P.D. 2: Rise of the Damned",
                              image: .mockImageUrlRiseOfTheDamned,
                              id: 1234,

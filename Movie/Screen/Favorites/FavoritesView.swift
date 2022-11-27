@@ -18,7 +18,8 @@ struct FavoritesView: View {
                     } label: {
                         FavoriteRow(item: item)
                     }
-                }.onDelete(perform: viewModel.deleteFavorite(at:))
+                }
+                .onDelete(perform: viewModel.deleteFavorite(at:))
             }
             .listStyle(.insetGrouped)
         }

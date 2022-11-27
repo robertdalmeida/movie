@@ -2,11 +2,9 @@ import SwiftUI
 
 struct CarouselCard: View {
     enum Constants {
-        static let frame = CGSizeMake(250, 300)
-        static let imageFrame = CGSizeMake(frame.width, 230)
+        static let cardSize: CGSize = CGSize(width: 180, height: 220)
         static let cornerRadius: CGFloat = 11.0
     }
-    
     let item: Item
     var body: some View {
         ZStack {
@@ -16,8 +14,8 @@ struct CarouselCard: View {
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: Constants.imageFrame.width,
-                               height: Constants.imageFrame.height,
+                        .frame(width: Constants.cardSize.width,
+                               height: Constants.cardSize.height - 70,
                                alignment: .top)
                         .clipped()
                         
@@ -30,7 +28,7 @@ struct CarouselCard: View {
             }
             .padding(.bottom)
         }
-        .frame(width: Constants.frame.width, height: Constants.frame.height)
+        .frame(width: Constants.cardSize.width, height: Constants.cardSize.height)
         .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
         .shadow(radius: 3.0)
     }
@@ -39,7 +37,7 @@ struct CarouselCard: View {
     var detailsView: some View {
         HStack {
             Text(item.title)
-                .font(.headline)
+                .font(.subheadline)
                 .bold()
                 .truncationMode(.tail)
                 .padding([.leading, .top])
