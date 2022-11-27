@@ -14,5 +14,6 @@ extension URL {
 
     static let mockImageUrlTheLair: URL? = URL(string: "https://image.tmdb.org/t/p/original/ifRFLx83Xk1DcwAS3OScgI6HmWO.jpg")
 
+    static let mockBackdropImageURL: URL? = URL(string: "https://image.tmdb.org/t/p/original/pFlaoHTZeyNkG83vxsAJiGzfSsa.jpg")
     #endif
 }

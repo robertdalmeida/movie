@@ -3,24 +3,7 @@ import struct TMDb.Movie
 import class TMDb.TMDbAPI
 import struct TMDb.ImagesConfiguration
 
-final class ImageResolutionService {
-    let tmdb: TMDbAPI
-    
-    init(tmdb: TMDbAPI) {
-        self.tmdb = tmdb
-    }
-    
-    func imageService(url: URL?) async -> URL? {
-        guard let configuration = try? await tmdb.configurations.apiConfiguration().images else {
-            return nil
-        }
-        return configuration.posterURL(for: url)
-    }
-}
-
 final class TMDbStoreService: ObservableObject {
-    let tmdb = TMDbAPI(apiKey: "0aff42c3702e51dab885840d01ca77f8")
-    lazy var imageResolutionService: ImageResolutionService = { ImageResolutionService(tmdb: tmdb) }()
     
     enum StoreServiceError: Error {
         case somethingFailed(Error?)
@@ -32,9 +15,13 @@ final class TMDbStoreService: ObservableObject {
         case error(StoreServiceError)
     }
     
+    let tmdb = TMDbAPI(apiKey: "0aff42c3702e51dab885840d01ca77f8")
+    lazy var imageResolutionService: ImageResolutionService = { ImageResolutionService(tmdb: tmdb) }()
+    
     var popularMovies: ServicedData<[Media]> = .uninitalized
     var nowPlayingMovies: ServicedData<[Media]> = .uninitalized
 
+    // MARK: -  debug
     
     #if DEBUG
     static func mock() -> TMDbStoreService {
@@ -46,6 +33,8 @@ final class TMDbStoreService: ObservableObject {
         self.nowPlayingMovies = .data(nowPlayingMovies)
     }
     #endif
+    
+    // MARK: -  Initialization
     
     func initialize() async -> Result<Void, StoreServiceError> {
         async let popularMovies =  fetchPopularMovies()
@@ -65,6 +54,7 @@ final class TMDbStoreService: ObservableObject {
         }
     }
     
+    // MARK: -  Interfaces
     func fetchPopularMovies() async -> ServicedData<[Media]> {
         do {
             #warning("Robert: we can implement something to paginate as user scrolls.")
@@ -76,11 +66,6 @@ final class TMDbStoreService: ObservableObject {
             print("\(#function): \(error)")
             return .error(.somethingFailed(error))
         }
-    }
-    
-    private func transform(movie: Movie) async -> Media {
-        let imageURL = await imageResolutionService.imageService(url: movie.posterPath)
-        return Media(title: movie.title, image: imageURL, id: movie.id, releaseDate: movie.releaseDate)
     }
     
     func fetchNowPlayingMovies() async -> ServicedData<[Media]>  {
@@ -96,15 +81,21 @@ final class TMDbStoreService: ObservableObject {
         }
     }
     
-    func fetchMorePopularMovies() {
-        //ROB: increase the pagination count and request move movies.
-    }
-    
-    func fetchMoreNowPlaying() {
-        //ROB: increase the pagination count and request move movies.
-    }
-    
-    func movieDetails() {
-//        tmdb.movies.details(forMovie: )
+    // MARK: -  Helper
+    private func transform(movie: Movie) async -> Media {
+        let imageURL = await imageResolutionService.imageService(url: movie.posterPath)
+        let backdropImageURL = await imageResolutionService.backdropService(url: movie.posterPath)
+
+        return Media(title: movie.title,
+                     image: imageURL,
+                     id: movie.id,
+                     releaseDate: movie.releaseDate,
+                     tagLine: movie.tagline,
+                     language: movie.originalLanguage,
+                     overview: movie.overview,
+                     backdropPath: backdropImageURL,
+                     popularity: movie.popularity,
+                     voteAverage: movie.voteAverage,
+                     adult: movie.adult)
     }
 }

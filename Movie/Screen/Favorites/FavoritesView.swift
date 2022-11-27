@@ -53,9 +53,7 @@ extension FavoritesView {
                 try await objectsToRemove.asyncForEach { media in
                     try await favoriteStoreService.removeFavorite(media: media)
                 }
-                try await favoriteStoreService.initialize()
             }
-            favorites.remove(atOffsets: offsets)
         }
         
         
