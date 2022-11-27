@@ -12,7 +12,7 @@ struct FavoritesView: View {
             List {
                 ForEach(viewModel.favorites) { item in
                     NavigationLink {
-                        MovieDetailView(viewModel: .init(media: item,
+                        MediaDetailView(viewModel: .init(media: item,
                                                          favoriteStoreService: appDependencies.favoriteService,
                                                          offline: false))
                     } label: {

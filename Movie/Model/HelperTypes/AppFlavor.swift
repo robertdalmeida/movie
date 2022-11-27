@@ -10,12 +10,14 @@ enum AppFontStyle {
     case title
     case cellTitle
     case errorText
+    case readingContent
     
     var font: Font {
         switch self {
         case .title: return .title
         case .cellTitle: return .subheadline
         case .errorText: return .headline
+        case .readingContent: return .footnote
         }
     }
     
@@ -24,6 +26,7 @@ enum AppFontStyle {
         case .title: return .rounded
         case .cellTitle: return .rounded
         case .errorText: return .monospaced
+        case .readingContent: return .default
         }
     }
 }

@@ -3,14 +3,14 @@ import SwiftUI
 /// The main view of the application that houses the tabview and the containing views.
 struct StartingView: View {
     @EnvironmentObject var appDependencies: AppDependencies
-    @ObservedObject var viewModel: StartingViewModel
+    @ObservedObject var viewModel: ViewModel
     @ObservedObject var mediaNavigationCoordinator = MediaNavigationCoordinator()
     
     var body: some View {
         NavigationStack(path: $mediaNavigationCoordinator.navigationPath) {
             ZStack{ view }
             .navigationDestination(for: Media.self) {
-                MovieDetailView(viewModel: .init(media: $0,
+                MediaDetailView(viewModel: .init(media: $0,
                                                  favoriteStoreService: appDependencies.favoriteService,
                                                  offline: false))
             }
