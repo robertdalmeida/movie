@@ -3,8 +3,7 @@ import struct TMDb.Movie
 import class TMDb.TMDbAPI
 import struct TMDb.ImagesConfiguration
 
-final class TMDbStoreService: ObservableObject {
-    
+final class MediaStore {
     enum StoreServiceError: Error {
         case somethingFailed(Error?)
     }
@@ -24,8 +23,8 @@ final class TMDbStoreService: ObservableObject {
     // MARK: -  debug
     
     #if DEBUG
-    static func mock() -> TMDbStoreService {
-        TMDbStoreService(nowPlayingMovies: [.mock, .mock1], popularMovies: [.mock, .mock2])
+    static func mock() -> Self {
+        .init(nowPlayingMovies: [.mock, .mock1], popularMovies: [.mock, .mock2])
     }
     
     init(nowPlayingMovies: [Media] = [], popularMovies: [Media] = []) {
@@ -58,7 +57,7 @@ final class TMDbStoreService: ObservableObject {
     func fetchPopularMovies() async -> ServicedData<[Media]> {
         do {
             #warning("Robert: we can implement something to paginate as user scrolls.")
-            let movieResult = try await tmdb.discover.movies(sortedBy: .popularity(), withPeople: nil, page: 1)
+            let movieResult = try await tmdb.discover.movies(sortedBy: .popularity(), withPeople: nil, page: nil)
             let movies = await movieResult.results.asyncMap(transform(movie:))
             popularMovies = .data(movies)
             return .data(movies)
@@ -71,7 +70,7 @@ final class TMDbStoreService: ObservableObject {
     func fetchNowPlayingMovies() async -> ServicedData<[Media]>  {
         do {
             #warning("Robert: we can implement something to paginate as user scrolls.")
-            let movieResult = try await tmdb.discover.movies(sortedBy: .primaryReleaseDate(descending: true), withPeople: nil, page: 1)
+            let movieResult = try await tmdb.discover.movies(sortedBy: .primaryReleaseDate(descending: true), withPeople: nil, page: nil)
             let movies = await movieResult.results.asyncMap(transform(movie:))
             nowPlayingMovies = .data(movies)
             return .data(movies)

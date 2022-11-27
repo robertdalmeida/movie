@@ -41,15 +41,15 @@ extension DiscoverSection {
         }
         
         let context: Context
-        let store: TMDbStoreService
+        let store: MediaStore
         var mediaItems: [Media] = []
         var state: State = .noData
         
-        init(context: Context, store: TMDbStoreService) {
+        init(context: Context, store: MediaStore) {
             self.context = context
             self.store = store
             
-            let initializatinBlock: (TMDbStoreService.ServicedData<[Media]>) -> State = { servicedData in
+            let initializatinBlock: (MediaStore.ServicedData<[Media]>) -> State = { servicedData in
                 switch servicedData {
                 case .uninitalized, .error:
                     return .noData

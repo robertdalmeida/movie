@@ -1,19 +1,15 @@
 import SwiftUI
 
 struct CarouselCard: View {
-    
     enum Constants {
         static let frame = CGSizeMake(250, 300)
-        static let imageFrame = CGSizeMake(frame.width, 200)
+        static let imageFrame = CGSizeMake(frame.width, 230)
         static let cornerRadius: CGFloat = 11.0
     }
     
     let item: Item
     var body: some View {
         ZStack {
-//            LinearGradient(gradient: Gradient(colors: [Color(.lightGray), .white, Color(.lightGray), .white, Color(.lightGray)]),
-//                           startPoint: .top,
-//                           endPoint: .bottom)
             Color(.secondarySystemBackground)
             VStack {
                 AsyncImage(url: item.imageURL) { image in
@@ -58,7 +54,8 @@ struct CarouselCard: View {
                     .foregroundColor(.secondary)
                     .font(.caption)
                 Spacer()
-            }.padding([.bottom, .leading, .trailing])
+            }
+            .padding([.bottom, .leading, .trailing])
         }
     }
 }

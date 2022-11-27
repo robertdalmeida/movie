@@ -1,6 +1,10 @@
 import SwiftUI
 
 struct MediaDetailView: View {
+    
+    enum Constants {
+        static let favoriteButtonSize = CGSizeMake(30, 30)
+    }
     @ObservedObject var viewModel: ViewModel
     
     var body: some View {
@@ -21,18 +25,21 @@ struct MediaDetailView: View {
     // MARK: -  Container views
     
     var mediaPoster: some View {
-        AsyncImage(url: viewModel.image) { image in
-            image
-                .resizable()
-                .scaledToFit()
-                .ignoresSafeArea()
-                .clipShape(RoundedRectangle(cornerRadius: 15.0))
-        } placeholder: {
-            Spacer()
-            ProgressView()
-            Spacer()
+        ZStack {
+            AsyncImage(url: viewModel.image) { image in
+                image
+                    .resizable()
+                    .scaledToFit()
+                    .clipShape(RoundedRectangle(cornerRadius: 15.0))
+            } placeholder: {
+                Spacer()
+                ProgressView()
+                Spacer()
+            }
+            .padding()
         }
-        .padding()
+
+        
     }
     
     var movieHeader: some View {
@@ -70,23 +77,29 @@ struct MediaDetailView: View {
     }
     var favoriteButton: some View {
         Button {
-            viewModel.favoriteButtonTapped()
+            Task {
+                await viewModel.favoriteButtonTapped()
+            }
         } label: {
-            if viewModel.isFavorite {
-                Image(systemName: "heart.fill")
-                    .resizable()
-                    .frame(width: 40, height: 40)
-
-            } else {
+            switch viewModel.favoriteButtonState {
+            case .notAFavorite:
                 Image(systemName: "heart")
                     .resizable()
-                    .frame(width: 40, height: 40)
+                    .transition(.scale)
 
+            case .favorite:
+                Image(systemName: "heart.fill")
+                    .resizable()
+                    .transition(.scale)
+
+            case .inProgress:
+                ProgressView()
             }
         }
+        .frame(width: Constants.favoriteButtonSize.width, height: Constants.favoriteButtonSize.height)
+        
     }
 }
-
 
 struct MovieDetailView_Previews: PreviewProvider {
     static var previews: some View {

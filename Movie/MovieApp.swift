@@ -1,10 +1,10 @@
 import SwiftUI
 
 final class AppDependencies: ObservableObject {
-    let storeService: TMDbStoreService
+    let storeService: MediaStore
     let favoriteService: FavoritesStore
 
-    init(storeService: TMDbStoreService = TMDbStoreService(),
+    init(storeService: MediaStore = MediaStore(),
          favoriteService: FavoritesStore = FavoritesStore()) {
         self.storeService = storeService
         self.favoriteService = favoriteService

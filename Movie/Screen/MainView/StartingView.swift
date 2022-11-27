@@ -19,6 +19,16 @@ struct StartingView: View {
         .task {
             await viewModel.initiateStartSequence()
         }
+        .background{
+            LinearGradient(gradient: Gradient(colors: [AppThemeColor.themeColor,
+                                                       Color(.systemBackground),
+                                                       AppThemeColor.themeColor,
+                                                       Color(.systemBackground),
+                                                       AppThemeColor.themeColor]),
+                           startPoint: .top,
+                           endPoint: .bottom)
+            .ignoresSafeArea()
+        }
     }
     
     // MARK: -  helper views

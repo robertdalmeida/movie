@@ -6,6 +6,14 @@ extension MediaDetailView {
         let media: Media
         let favoriteStoreService: FavoritesStore
         
+        enum FavoriteButtonState {
+            case notAFavorite
+            case favorite
+            case inProgress
+        }
+        
+        @Published var favoriteButtonState: FavoriteButtonState = .notAFavorite
+        
         var offline: Bool = false
         
         var title: String {
@@ -18,29 +26,29 @@ extension MediaDetailView {
             media.image
         }
         
-        var isFavorite: Bool {
-            favoriteStoreService.isMediaAFavorite(media: media)
-        }
-        
         init(media: Media, favoriteStoreService: FavoritesStore, offline: Bool) {
             self.media = media
             self.favoriteStoreService = favoriteStoreService
             self.offline = offline
+            checkFavorite()
         }
         
-        func favoriteButtonTapped() {
-            Task {
-                do {
-                    if isFavorite {
-                        try await favoriteStoreService.removeFavorite(media: media)
-                    } else {
-                        try await favoriteStoreService.saveFavorite(media: media)
-                    }
-                    objectWillChange.send()
-
-                } catch {
-                    // TODO: Error handling if something doesn't change.
+        // MARK: -  Favorite Button State
+        func checkFavorite() {
+            self.favoriteButtonState = favoriteStoreService.isMediaAFavorite(media: media) ? .favorite : .notAFavorite
+        }
+        
+        func favoriteButtonTapped() async {
+            self.favoriteButtonState = .inProgress
+            do {
+                if favoriteStoreService.isMediaAFavorite(media: media) {
+                    try await favoriteStoreService.removeFavorite(media: media)
+                } else {
+                    try await favoriteStoreService.saveFavorite(media: media)
                 }
+                checkFavorite()
+            } catch {
+                // TODO: Error handling if something doesn't change.
             }
         }
     }

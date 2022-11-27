@@ -31,7 +31,6 @@ struct HorizontalCarousel: View {
             .offset(x: myXOffset(item.order), y: 0)
             .zIndex(1.0 - abs(distance(item.order)) * 0.1)
             .onTapGesture {
-                print("Movie:\(item) tapped")
                 mediaNavigationCoordinator.navigateDetail(media: item.mediaReference)
             }
 
@@ -60,14 +59,11 @@ struct HorizontalCarousel: View {
     
     func distance(_ item: Int) -> Double {
         let distance = (draggingItem - Double(item)).remainder(dividingBy: Double(store.items.count))
-//        print("bob:", item, distance)
         return distance
     }
     
     func myXOffset(_ item: Int) -> Double {
         let angle = Double.pi * 2 / Double(store.items.count) * distance(item)
-//        print("bob: angle", item, angle)
-
         return sin(angle) * 200
     }
     
