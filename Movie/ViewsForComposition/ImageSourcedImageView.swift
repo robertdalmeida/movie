@@ -52,8 +52,10 @@ struct SourcedImageView: View {
     }
 }
 
+#if DEBUG
 struct SourcedImageView_Previews: PreviewProvider {
     static var previews: some View {
         SourcedImageView(imageSource: .noPoster)
     }
 }
+#endif

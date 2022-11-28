@@ -37,7 +37,6 @@ extension FavoritesView {
 
             favoriteStoreService.$status.receive(on: RunLoop.main)
                 .sink { status in
-                    print("BOB: \(#function)")
                     switch status {
                     case .fetched(mediaContents: let favorites):
                         self.favorites = favorites
@@ -67,9 +66,11 @@ extension FavoritesView {
     }
 }
 
+#if DEBUG
 struct FavoritesView_Previews: PreviewProvider {
     static var previews: some View {
         FavoritesView(viewModel: .mock)
             .configure()
     }
 }
+#endif

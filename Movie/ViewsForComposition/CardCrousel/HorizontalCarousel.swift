@@ -69,9 +69,11 @@ struct HorizontalCarousel: View {
     
 }
 
+#if DEBUG
 struct HorizontalCarousel_Previews: PreviewProvider {
     static var previews: some View {
         HorizontalCarousel(store: .init(mediaItems: [.mock, .mock1, .mock2, .mock3, .mock4, .mock5, .mock6]))
             .frame(width: 400, height: 300)
     }
 }
+#endif

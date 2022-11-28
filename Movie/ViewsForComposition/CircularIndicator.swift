@@ -42,9 +42,11 @@ struct CircularIndicator: View {
     }
 }
 
+#if DEBUG
 struct CircularIndicator_Previews: PreviewProvider {
     static var previews: some View {
         CircularIndicator(progress: 0.3)
             .frame(width: 60, height: 60)
     }
 }
+#endif

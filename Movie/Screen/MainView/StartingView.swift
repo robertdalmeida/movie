@@ -77,10 +77,11 @@ struct StartingView: View {
         ProgressView()
     }
 }
-
+#if DEBUG
 struct StartingView_Previews: PreviewProvider {
     static var previews: some View {
         StartingView(viewModel: .init(appDependencies: .mock))
             .configure()
     }
 }
+#endif

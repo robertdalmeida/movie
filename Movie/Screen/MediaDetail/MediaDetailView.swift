@@ -128,6 +128,7 @@ struct MediaDetailView: View {
     }
 }
 
+#if DEBUG
 struct MovieDetailView_Previews: PreviewProvider {
     static var previews: some View {
         MediaDetailView(viewModel: .init(media: .mock,
@@ -135,3 +136,4 @@ struct MovieDetailView_Previews: PreviewProvider {
             .configure()
     }
 }
+#endif

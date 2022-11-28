@@ -72,9 +72,11 @@ extension DiscoverSection {
     }
 }
 
+#if DEBUG
 struct DiscoverSection_Previews: PreviewProvider {
     static var previews: some View {
         DiscoverSection(viewModel: .init(context: .mostPopular, store: .mock()))
             .configure()
     }
 }
+#endif

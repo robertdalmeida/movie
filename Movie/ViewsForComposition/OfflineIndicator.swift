@@ -13,8 +13,10 @@ struct OfflineIndicator: View {
     }
 }
 
+#if DEBUG
 struct OfflineIndicator_Previews: PreviewProvider {
     static var previews: some View {
         OfflineIndicator()
     }
 }
+#endif

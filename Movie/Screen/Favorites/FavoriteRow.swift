@@ -27,8 +27,10 @@ struct FavoriteRow: View {
     }
 }
 
+#if DEBUG
 struct FavoriteRow_Previews: PreviewProvider {
     static var previews: some View {
         FavoriteRow(item: .mock)
     }
 }
+#endif

@@ -1,5 +1,4 @@
 import Foundation
-import Combine
 
 final class FavoritesStore: ObservableObject {
     let storage: FileStorageService = .init(folderName: "Favorites")
