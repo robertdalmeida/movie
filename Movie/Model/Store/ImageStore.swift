@@ -1,26 +1,26 @@
 import Foundation
 import UIKit
 
-struct ImageContainer {
-    typealias UniqueIdentifer = String
-    let id: UniqueIdentifer
-    let image: UIImage
-}
+/// <#Description#>
+final class ImageStore: ObservableObject {
+    let fileStorageService = FileStorageService(folderName: "Images")
+    let imageFetchService = ImageFetchingService()
 
-
-final class ImagePersistentStoreService: ObservableObject {
-    let fileWritingService = FileStorageService(folderName: "Images")
-    
     enum ImageStoreServiceError: Error {
         case unableToConverImageToPNG
         case underlyingError(Error)
+    }
+    
+    func retriveImage(url: URL, identifier: String) async throws {
+        let image = try await imageFetchService.fetch(url)
+        try saveImage(image: image, id: identifier).get()
     }
     
     func saveImage(image: UIImage, id: String) -> Result<Void, ImageStoreServiceError> {
         guard let imageData = image.pngData() else {
             return .failure(.unableToConverImageToPNG)
         }
-        switch fileWritingService.saveData(data: imageData, id: id) {
+        switch fileStorageService.saveData(data: imageData, id: id) {
         case .failure(let error):
             return .failure(.underlyingError(error))
         case .success():
@@ -29,7 +29,7 @@ final class ImagePersistentStoreService: ObservableObject {
     }
     
     func retrieveImage(id: String) -> UIImage? {
-        guard let imageData = try? fileWritingService.fetchData(id: id).get(),
+        guard let imageData = try? fileStorageService.fetchData(id: id).get(),
                 let image = UIImage(data: imageData) else {
             return nil
         }

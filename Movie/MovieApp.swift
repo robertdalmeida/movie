@@ -3,11 +3,11 @@ import SwiftUI
 final class AppDependencies: ObservableObject {
     let mediaStore: MediaStore
     let favoriteStore: FavoritesStore
-    let imageStoreService: ImagePersistentStoreService
+    let imageStoreService: ImageStore
     
     init(mediaStore: MediaStore = MediaStore(),
          favoriteStore: FavoritesStore = FavoritesStore(),
-         imageStoreService: ImagePersistentStoreService = ImagePersistentStoreService()) {
+         imageStoreService: ImageStore = ImageStore()) {
         self.mediaStore = mediaStore
         self.favoriteStore = favoriteStore
         self.imageStoreService = imageStoreService

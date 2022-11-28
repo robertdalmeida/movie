@@ -47,7 +47,7 @@ extension MediaDetailView {
             self.favoriteButtonState = .inProgress
             do {
                 if favoriteStore.isMediaAFavorite(media: media) {
-                    try await favoriteStore.removeFavorite(media: media)
+                    try favoriteStore.removeFavorite(media: media)
                 } else {
                     try await favoriteStore.saveFavorite(media: media)
                 }

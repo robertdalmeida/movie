@@ -3,8 +3,7 @@ import Combine
 
 final class FavoritesStore: ObservableObject {
     let storage: FileStorageService = .init(folderName: "Favorites")
-    let imageStore: ImagePersistentStoreService = .init()
-    let imageFetchService = ImageFetchingService()
+    let imageStore: ImageStore = .init()
     
     enum Status {
         case notInitialized
@@ -31,35 +30,16 @@ final class FavoritesStore: ObservableObject {
     }
     
     func saveFavorite(media: Media) async throws {
-        switch media.posterImage {
-        case .url(let url):
-            let identifier = "\(media.id)_poster"
-            let image = try await imageFetchService.fetch(url)
-            try imageStore.saveImage(image: image, id: identifier).get()
-            media.posterImage = .localFile(fileIdentifier: identifier)
-        case .noPoster, .localFile:
-            break
-        }
+        async let posterImageSource = retrievePosterImage(media: media)
+        async let thumbnailImageSource = retrieveThumbnailImage(media: media)
+        media.thumbnailImage = try await thumbnailImageSource
+        media.posterImage = try await posterImageSource
         
-        switch media.thumbnailImage {
-        case .url(let url):
-            let identifier = "\(media.id)_thumbnail"
-            let image = try await imageFetchService.fetch(url)
-            try imageStore.saveImage(image: image, id: identifier).get()
-            media.thumbnailImage = .localFile(fileIdentifier: identifier)
-        case .noPoster, .localFile:
-            break
-        }
-        
-        let data = try encodeMedia(media: media)
+        let data = try encodeMedia(media)
         try storage.saveData(data: data, id: "\(media.id)").get()
         initialize()
     }
-    
-    func encodeMedia(media: Media) throws -> Data {
-         try JSONEncoder().encode(media)
-    }
-    
+        
     func removeFavorite(media: Media) throws {
         try storage.deleteData(id: "\(media.id)").get()
         initialize()
@@ -73,6 +53,33 @@ final class FavoritesStore: ObservableObject {
             return mediaContents.contains { savedMedia in
                 savedMedia.id == media.id
             }
+        }
+    }
+    
+    // MARK: -  helper
+    private func encodeMedia(_ media: Media) throws -> Data {
+         try JSONEncoder().encode(media)
+    }
+    
+    private func retrievePosterImage(media: Media) async throws -> ImageSource {
+        switch media.posterImage {
+        case .url(let url):
+            let identifier = "\(media.id)_poster"
+            try await imageStore.retriveImage(url: url, identifier: identifier)
+            return .localFile(fileIdentifier: identifier)
+        case .noPoster, .localFile:
+            return media.thumbnailImage
+        }
+    }
+    
+    private func retrieveThumbnailImage(media: Media) async throws -> ImageSource {
+        switch media.thumbnailImage {
+        case .url(let url):
+            let identifier = "\(media.id)_thumbnail"
+            try await imageStore.retriveImage(url: url, identifier: identifier)
+            return .localFile(fileIdentifier: identifier)
+        case .noPoster, .localFile:
+            return media.thumbnailImage
         }
     }
     

@@ -1,8 +1,8 @@
 import Foundation
 import UIKit
 
+/// Fetches an image given a url.
 actor ImageFetchingService {
-    
     private var images: [URL: ImageRequestStatus] = [:]
 
     private enum ImageRequestStatus {

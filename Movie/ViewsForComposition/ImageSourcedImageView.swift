@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SourcedImageView: View {
     let imageSource: ImageSource
-    @EnvironmentObject var imageStoreService: ImagePersistentStoreService
+    @EnvironmentObject var imageStoreService: ImageStore
     var contentMode: ContentMode
     
     init(imageSource: ImageSource, contentMode: ContentMode = .fit) {
