@@ -27,11 +27,6 @@ struct MediaDetailView: View {
             }
         }
         .navigationTitle(viewModel.title)
-        .onAppear {
-            Task {
-                await viewModel.initialize()
-            }
-        }
     }
     
     // MARK: -  Container views

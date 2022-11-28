@@ -5,6 +5,10 @@ struct DiscoverView: View {
 
     var body: some View {
         VStack {
+            HStack {
+                Text("Discover Movies")
+                    .applyAppStyle(.title)
+            }
             Spacer()
             DiscoverSection(viewModel: .init(context: .mostPopular,
                                              store: appDependencies.mediaStore))
