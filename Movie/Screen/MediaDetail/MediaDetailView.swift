@@ -8,16 +8,30 @@ struct MediaDetailView: View {
     @ObservedObject var viewModel: ViewModel
     
     var body: some View {
-        ScrollView {
-            VStack{
-                mediaPoster
-                mediaTitleRow
-                releaseDateAndRating
-                genreView
-                movieDetails
+        ZStack {
+            switch viewModel.state {
+            case .loading:
+                ProgressView()
+            case .loaded:
+                ScrollView {
+                    VStack{
+                        mediaPoster
+                        mediaTitleRow
+                        releaseDateAndRating
+                        genreView
+                        movieDetails
+                    }
+                }
+            case .error:
+                ErrorView(message: "")
             }
         }
         .navigationTitle(viewModel.title)
+        .onAppear {
+            Task {
+                await viewModel.initialize()
+            }
+        }
     }
     
     // MARK: -  Container views

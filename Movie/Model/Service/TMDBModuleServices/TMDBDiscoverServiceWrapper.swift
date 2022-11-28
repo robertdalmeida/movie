@@ -6,6 +6,9 @@ final class TMDBDiscoverServiceWrapper {
     let configuration: TMDBConfiguration
     lazy var adaptor: TMDBDMediaAdaptor = { TMDBDMediaAdaptor(configuration: configuration) }()
     
+    private var popularMovies: [TMDb.Movie] = []
+    private var nowPlayingMovies: [TMDb.Movie] = []
+
     init(configuration: TMDBConfiguration) {
         self.configuration = configuration
     }
@@ -18,6 +21,11 @@ final class TMDBDiscoverServiceWrapper {
     func fetchNowPlayingMedia() async throws -> [Media]  {
         let movieResult = try await configuration.tmdb.discover.movies(sortedBy: .primaryReleaseDate(descending: true), withPeople: nil, page: nil)
         return await movieResult.results.asyncMap(adaptor.transform(movie:))
+    }
+    
+    func fetchMediaDetail(media: Media) async throws -> Media {
+        let movie = try await configuration.tmdb.movies.details(forMovie: media.id)
+        return await adaptor.transform(movie: movie)
     }
 }
 

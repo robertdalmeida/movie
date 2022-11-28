@@ -71,4 +71,8 @@ final class MediaStore {
             return .error(.somethingFailed(error))
         }
     }
+    
+    func fetchMediaDetail(media: Media) async throws -> Media {
+        try await discoverServiceWrapper.fetchMediaDetail(media: media)
+    }
 }

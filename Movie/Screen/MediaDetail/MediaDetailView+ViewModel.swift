@@ -1,12 +1,22 @@
 import Foundation
 
+
+protocol FavoriteStoreProtocol {
+    func isMediaAFavorite(media: Media) -> Bool
+}
 extension MediaDetailView {
     @MainActor
     final class ViewModel: ObservableObject {
-        let media: Media
+        var media: Media
         let favoriteStore: FavoritesStore
         let mediaStore: MediaStore
 
+        enum DetailViewState {
+            case loading
+            case error
+            case loaded
+        }
+        @Published var state: DetailViewState = .loading
         enum FavoriteButtonState {
             case notAFavorite
             case favorite
@@ -38,6 +48,15 @@ extension MediaDetailView {
             checkFavorite()
         }
         
+        func initialize() async {
+            self.state = .loading
+            do {
+                media = try await mediaStore.fetchMediaDetail(media: media)
+                state = .loaded
+            } catch {
+                state = .error
+            }
+        }
         // MARK: -  Favorite Button State
         func checkFavorite() {
             self.favoriteButtonState = favoriteStore.isMediaAFavorite(media: media) ? .favorite : .notAFavorite
