@@ -41,8 +41,7 @@ extension FavoritesView {
                     switch status {
                     case .fetched(mediaContents: let favorites):
                         self.favorites = favorites
-                    case .inProgress:
-                        // ROB: Change here to state handling
+                    case .notInitialized, .error:
                         break
                     }
                 }.store(in: &anyCancellables)
@@ -51,8 +50,8 @@ extension FavoritesView {
         func deleteFavorite(at offsets: IndexSet) {
             let objectsToRemove = offsets.map { favorites[$0] }
             Task {
-                try await objectsToRemove.asyncForEach { media in
-                    try await favoriteStoreService.removeFavorite(media: media)
+                try objectsToRemove.forEach { media in
+                    try favoriteStoreService.removeFavorite(media: media)
                 }
             }
         }

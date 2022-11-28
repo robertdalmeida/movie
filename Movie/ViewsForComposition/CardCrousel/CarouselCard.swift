@@ -14,10 +14,9 @@ struct CarouselCard: View {
             VStack {
                 SourcedImageView(imageSource: item.mediaReference.thumbnailImage,
                                  contentMode: .fill)
-                                        .frame(width: Constants.cardSize.width,
-                                               height: Constants.cardSize.height - 40,
-                                               alignment: .top)
-                                        .clipped()//
+                .frame(width: Constants.cardSize.width,
+                       height: Constants.cardSize.height - 40)
+                .clipped()
                 detailsView
             }
         }

@@ -42,6 +42,7 @@
 		14E069292934C3D200CBF5E5 /* ImageFetchingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E069282934C3D200CBF5E5 /* ImageFetchingService.swift */; };
 		14E0692C2934F86400CBF5E5 /* TMDBDiscoverServiceWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E0692B2934F86400CBF5E5 /* TMDBDiscoverServiceWrapper.swift */; };
 		14E0692E2934F91900CBF5E5 /* TMDBConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E0692D2934F91900CBF5E5 /* TMDBConfiguration.swift */; };
+		14E0693029350D5600CBF5E5 /* FileStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E0692F29350D5600CBF5E5 /* FileStorageService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +101,7 @@
 		14E069282934C3D200CBF5E5 /* ImageFetchingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFetchingService.swift; sourceTree = "<group>"; };
 		14E0692B2934F86400CBF5E5 /* TMDBDiscoverServiceWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBDiscoverServiceWrapper.swift; sourceTree = "<group>"; };
 		14E0692D2934F91900CBF5E5 /* TMDBConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBConfiguration.swift; sourceTree = "<group>"; };
+		14E0692F29350D5600CBF5E5 /* FileStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileStorageService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,6 +282,7 @@
 				14E0692A2934F80000CBF5E5 /* TMDBModuleServices */,
 				14E069242934AA7000CBF5E5 /* ImageStoreService.swift */,
 				14E069282934C3D200CBF5E5 /* ImageFetchingService.swift */,
+				14E0692F29350D5600CBF5E5 /* FileStorageService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -482,6 +485,7 @@
 				140644AA292F1BCE003346F3 /* FavoritesView.swift in Sources */,
 				14898B6F292F840D00018A5E /* AppFlavor.swift in Sources */,
 				141BE6092930FC74000144AC /* OfflineIndicator.swift in Sources */,
+				14E0693029350D5600CBF5E5 /* FileStorageService.swift in Sources */,
 				14898B712930637F00018A5E /* Media.swift in Sources */,
 				141BE60B2930FE60000144AC /* FavoriteMediaStore.swift in Sources */,
 				14E069252934AA7000CBF5E5 /* ImageStoreService.swift in Sources */,

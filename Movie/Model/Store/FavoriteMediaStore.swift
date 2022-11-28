@@ -1,112 +1,31 @@
 import Foundation
 import Combine
 
-typealias Storable = Decodable & Encodable & Identifiable
-
-struct FileStorageService<T: Storable> {
-    private let folderName: String
-    
-    private var favoriteFolderPath: URL {
-        get throws {
-            try FileManager.default.url(for: .documentDirectory,
-                                         in: .userDomainMask,
-                                         appropriateFor: nil,
-                                         create: false)
-            .appending(path: folderName, directoryHint: .isDirectory)
-        }
-    }
-    
-    // MARK: -  init
-    init(folderName: String) {
-        self.folderName = folderName
-    }
-    
-    // MARK: -  Interfaces
-    
-    func saveMedia(media: T) async throws -> [T] {
-        do {
-            try createFavoriteDirectoryIfNecessary()
-            let encoded = try JSONEncoder().encode(media)
-            if let fileURL = try fileURL(object: media) {
-                try encoded.write(to: fileURL, options: .completeFileProtection)
-            }
-            return try load()
-        } catch {
-            print("BOB: \(#function) \(error)")
-            throw error
-        }
-        
-    }
-    
-    func fetchStoredMedia() async throws -> [T] {
-        try load()
-    }
-    
-    func removeMedia(media: T) async throws -> [T] {
-        do {
-            if let favoriteURL = try fileURL(object: media) {
-                try FileManager.default.removeItem(at: favoriteURL)
-            }
-            return try load()
-        } catch {
-            print("BOB: \(#function) \(error)")
-            throw error
-        }
-    }
-
-    // MARK: -  privater helpers
-    
-    private func fileURL(object: T) throws -> URL? {
-        return try favoriteFolderPath.appendingPathComponent("\(object.id)".appending(".json"), isDirectory: false)
-    }
-    
-    private func createFavoriteDirectoryIfNecessary() throws {
-        try FileManager.default.createDirectory(at: try favoriteFolderPath, withIntermediateDirectories: true)
-    }
-    
-    private func urlsAtPath() throws -> [URL] {
-        try FileManager.default.contentsOfDirectory(at: try favoriteFolderPath, includingPropertiesForKeys: nil)
-    }
-    
-    private func load() throws -> [T] {
-        var storedValues: [T] = []
-        try createFavoriteDirectoryIfNecessary()
-        for url in try urlsAtPath() {
-            if let value = try transform(url: url) {
-                storedValues.append(value)
-            }
-        }
-        return storedValues
-    }
-    
-    private func transform(url: URL) throws -> T? {
-        let data = try Data(contentsOf: url)
-        let decoded = try JSONDecoder().decode(T.self, from: data)
-        return decoded
-    }
-}
-
 final class FavoritesStore: ObservableObject {
-    let storage: FileStorageService<Media> = .init(folderName: "Favorites")
+    let storage: FileStorageService = .init(folderName: "Favorites")
     let imageStore: ImagePersistentStoreService = .init()
     let imageFetchService = ImageFetchingService()
     
     enum Status {
-        case inProgress
+        case notInitialized
         case fetched(mediaContents: [Media])
+        case error
     }
     
-    @Published var status: Status = .inProgress
+    @Published var status: Status = .notInitialized
     
     @discardableResult
-    func initialize() async -> Result<Void, Error> {
-        self.status = .inProgress
+    func initialize() -> Result<Void, Error> {
+        self.status = .notInitialized
         do {
-            self.status = .fetched(mediaContents: try await Task {
-                try await storage.fetchStoredMedia()
-            }.value)
+            let mediaContents = try storage.ids().map{
+                let data = try storage.fetchData(id: $0).get()
+                return try JSONDecoder().decode(Media.self, from: data)
+            }
+            self.status = .fetched(mediaContents: mediaContents)
             return .success(Void())
         } catch {
+            self.status = .error
             return .failure(error)
         }
     }
@@ -132,19 +51,23 @@ final class FavoritesStore: ObservableObject {
             break
         }
         
-        self.status = .fetched(mediaContents: try await storage.saveMedia(media: media))
+        let data = try encodeMedia(media: media)
+        try storage.saveData(data: data, id: "\(media.id)").get()
+        initialize()
     }
     
+    func encodeMedia(media: Media) throws -> Data {
+         try JSONEncoder().encode(media)
+    }
     
-    
-    func removeFavorite(media: Media) async throws {
-        self.status = .fetched(mediaContents: try await storage.removeMedia(media: media))
+    func removeFavorite(media: Media) throws {
+        try storage.deleteData(id: "\(media.id)").get()
+        initialize()
     }
     
     func isMediaAFavorite(media: Media) -> Bool {
         switch status {
-        case .inProgress:
-            // Good to know place of failure, we could always keep the instance of Task and return its value.
+        case .notInitialized, .error:
             return false
         case .fetched(mediaContents: let mediaContents):
             return mediaContents.contains { savedMedia in
