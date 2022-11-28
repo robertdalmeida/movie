@@ -2,15 +2,14 @@ import Foundation
 import class TMDb.TMDbAPI
 import struct TMDb.ImagesConfiguration
 
-final class ImageResolutionService {
-    let tmdb: TMDbAPI
-    
-    init(tmdb: TMDbAPI) {
-        self.tmdb = tmdb
+final class TMDBImageResolutionService {
+    let configuration: TMDBConfiguration
+    init(configuration: TMDBConfiguration) {
+        self.configuration = configuration
     }
     
     func cardImageService(url: URL?) async -> URL? {
-        guard let configuration = try? await tmdb.configurations.apiConfiguration().images else {
+        guard let configuration = try? await configuration.tmdb.configurations.apiConfiguration().images else {
             return nil
         }
         return configuration.posterURL(for: url, idealWidth: 200)
@@ -18,7 +17,7 @@ final class ImageResolutionService {
     
     
     func posterImageService(url: URL?) async -> URL? {
-        guard let configuration = try? await tmdb.configurations.apiConfiguration().images else {
+        guard let configuration = try? await configuration.tmdb.configurations.apiConfiguration().images else {
             return nil
         }
         return configuration.posterURL(for: url)

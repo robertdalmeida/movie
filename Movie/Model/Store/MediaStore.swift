@@ -14,12 +14,10 @@ final class MediaStore {
         case error(StoreServiceError)
     }
     
-    let tmdb = TMDbAPI(apiKey: "0aff42c3702e51dab885840d01ca77f8")
-    lazy var imageResolutionService: ImageResolutionService = { ImageResolutionService(tmdb: tmdb) }()
-    
     var popularMovies: ServicedData<[Media]> = .uninitalized
     var nowPlayingMovies: ServicedData<[Media]> = .uninitalized
-
+    
+    let discoverServiceWrapper: TMDBDiscoverServiceWrapper = .init(configuration: .shared)
     // MARK: -  debug
     
     #if DEBUG
@@ -56,71 +54,21 @@ final class MediaStore {
     // MARK: -  Interfaces
     func fetchPopularMovies() async -> ServicedData<[Media]> {
         do {
-            #warning("Robert: we can implement something to paginate as user scrolls.")
-            let movieResult = try await tmdb.discover.movies(sortedBy: .popularity(), withPeople: nil, page: nil)
-            let movies = await movieResult.results.asyncMap(transform(movie:))
-            popularMovies = .data(movies)
-            return .data(movies)
+            let fetched = try await discoverServiceWrapper.fetchPopularMedia()
+            popularMovies = .data(fetched)
+            return popularMovies
         } catch {
-            print("\(#function): \(error)")
             return .error(.somethingFailed(error))
         }
     }
     
     func fetchNowPlayingMovies() async -> ServicedData<[Media]>  {
         do {
-            #warning("Robert: we can implement something to paginate as user scrolls.")
-            let movieResult = try await tmdb.discover.movies(sortedBy: .primaryReleaseDate(descending: true), withPeople: nil, page: nil)
-            let movies = await movieResult.results.asyncMap(transform(movie:))
-            nowPlayingMovies = .data(movies)
-            return .data(movies)
+            let fetched = try await discoverServiceWrapper.fetchNowPlayingMedia()
+            nowPlayingMovies = .data(fetched)
+            return nowPlayingMovies
         } catch {
-            print("\(#function): \(error)")
             return .error(.somethingFailed(error))
-        }
-    }
-    
-    // MARK: -  Helper
-    
-    // TODO: Move this to a separate type
-    private func transform(movie: Movie) async -> Media {
-        let imageURL = await imageResolutionService.cardImageService(url: movie.posterPath)
-        let movieDetails = try? await tmdb.movies.details(forMovie: movie.id)
-        
-        return Media(title: movie.title,
-                     image: imageURL,
-                     posterImage: await posterImage(for: movie),
-                     thumbnailImage: await thumbnailPosterImage(for: movie),
-                     id: movie.id,
-                     releaseDate: movie.releaseDate,
-                     tagLine: movie.tagline,
-                     language: movie.originalLanguage,
-                     overview: movie.overview,
-                     popularity: movie.popularity,
-                     voteAverage: movie.voteAverage,
-                     adult: movie.adult,
-                     genres: genres(for: movie))
-    }
-    
-    private func genres(for movie: Movie) -> [String] {
-        movie.genres.map { $0.map(\.name)} ?? []
-    }
-    
-    private func posterImage(for movie: Movie) async -> ImageSource {
-        if let imageURL = await imageResolutionService.posterImageService(url: movie.posterPath) {
-            print("BOB: \(#function) - movie:\(movie.title) - posterImage:\(imageURL)")
-            return .url(imageURL)
-        } else {
-            return .noPoster
-        }
-    }
-    
-    private func thumbnailPosterImage(for movie: Movie) async -> ImageSource {
-        if let imageURL = await imageResolutionService.cardImageService(url: movie.posterPath) {
-            print("BOB: \(#function) - movie:\(movie.title) - thumbnailImage:\(imageURL)")
-            return .url(imageURL)
-        } else {
-            return .noPoster
         }
     }
 }

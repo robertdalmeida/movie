@@ -25,7 +25,7 @@
 		141BE60B2930FE60000144AC /* FavoriteMediaStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141BE60A2930FE60000144AC /* FavoriteMediaStore.swift */; };
 		141BE60D29326672000144AC /* FavoriteRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141BE60C29326672000144AC /* FavoriteRow.swift */; };
 		141BE6102932C9AE000144AC /* NavigationStackCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141BE60F2932C9AE000144AC /* NavigationStackCoordinator.swift */; };
-		141BE6122932EC2D000144AC /* ImageResolutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141BE6112932EC2D000144AC /* ImageResolutionService.swift */; };
+		141BE6122932EC2D000144AC /* TMDBImageResolutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141BE6112932EC2D000144AC /* TMDBImageResolutionService.swift */; };
 		141BE6172933050B000144AC /* MediaDetailView+ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141BE6162933050B000144AC /* MediaDetailView+ViewModel.swift */; };
 		14898B5B292F5CBC00018A5E /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14898B5A292F5CBC00018A5E /* Localization.swift */; };
 		14898B5F292F623A00018A5E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 14898B61292F623A00018A5E /* Localizable.strings */; };
@@ -40,6 +40,8 @@
 		14E069252934AA7000CBF5E5 /* ImageStoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E069242934AA7000CBF5E5 /* ImageStoreService.swift */; };
 		14E069272934BBCF00CBF5E5 /* ImageSourcedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E069262934BBCF00CBF5E5 /* ImageSourcedImageView.swift */; };
 		14E069292934C3D200CBF5E5 /* ImageFetchingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E069282934C3D200CBF5E5 /* ImageFetchingService.swift */; };
+		14E0692C2934F86400CBF5E5 /* TMDBDiscoverServiceWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E0692B2934F86400CBF5E5 /* TMDBDiscoverServiceWrapper.swift */; };
+		14E0692E2934F91900CBF5E5 /* TMDBConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E0692D2934F91900CBF5E5 /* TMDBConfiguration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,7 +82,7 @@
 		141BE60A2930FE60000144AC /* FavoriteMediaStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteMediaStore.swift; sourceTree = "<group>"; };
 		141BE60C29326672000144AC /* FavoriteRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRow.swift; sourceTree = "<group>"; };
 		141BE60F2932C9AE000144AC /* NavigationStackCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationStackCoordinator.swift; sourceTree = "<group>"; };
-		141BE6112932EC2D000144AC /* ImageResolutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResolutionService.swift; sourceTree = "<group>"; };
+		141BE6112932EC2D000144AC /* TMDBImageResolutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBImageResolutionService.swift; sourceTree = "<group>"; };
 		141BE6162933050B000144AC /* MediaDetailView+ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MediaDetailView+ViewModel.swift"; sourceTree = "<group>"; };
 		14898B5A292F5CBC00018A5E /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		14898B60292F623A00018A5E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -96,6 +98,8 @@
 		14E069242934AA7000CBF5E5 /* ImageStoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStoreService.swift; sourceTree = "<group>"; };
 		14E069262934BBCF00CBF5E5 /* ImageSourcedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSourcedImageView.swift; sourceTree = "<group>"; };
 		14E069282934C3D200CBF5E5 /* ImageFetchingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFetchingService.swift; sourceTree = "<group>"; };
+		14E0692B2934F86400CBF5E5 /* TMDBDiscoverServiceWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBDiscoverServiceWrapper.swift; sourceTree = "<group>"; };
+		14E0692D2934F91900CBF5E5 /* TMDBConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBConfiguration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -273,7 +277,7 @@
 		141BE6142932F43A000144AC /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				141BE6112932EC2D000144AC /* ImageResolutionService.swift */,
+				14E0692A2934F80000CBF5E5 /* TMDBModuleServices */,
 				14E069242934AA7000CBF5E5 /* ImageStoreService.swift */,
 				14E069282934C3D200CBF5E5 /* ImageFetchingService.swift */,
 			);
@@ -315,6 +319,16 @@
 				14898B75293078D400018A5E /* URL+Mocks.swift */,
 			);
 			path = AppExtensions;
+			sourceTree = "<group>";
+		};
+		14E0692A2934F80000CBF5E5 /* TMDBModuleServices */ = {
+			isa = PBXGroup;
+			children = (
+				141BE6112932EC2D000144AC /* TMDBImageResolutionService.swift */,
+				14E0692B2934F86400CBF5E5 /* TMDBDiscoverServiceWrapper.swift */,
+				14E0692D2934F91900CBF5E5 /* TMDBConfiguration.swift */,
+			);
+			path = TMDBModuleServices;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -462,6 +476,7 @@
 				14E0692329341E8800CBF5E5 /* CircularIndicator.swift in Sources */,
 				14E069292934C3D200CBF5E5 /* ImageFetchingService.swift in Sources */,
 				141BE60D29326672000144AC /* FavoriteRow.swift in Sources */,
+				14E0692C2934F86400CBF5E5 /* TMDBDiscoverServiceWrapper.swift in Sources */,
 				14898B74293074DC00018A5E /* Sequence+AsycMap.swift in Sources */,
 				141BE6172933050B000144AC /* MediaDetailView+ViewModel.swift in Sources */,
 				140644AA292F1BCE003346F3 /* FavoritesView.swift in Sources */,
@@ -478,7 +493,8 @@
 				14898B76293078D400018A5E /* URL+Mocks.swift in Sources */,
 				140644AF292F2D12003346F3 /* MediaDetailView.swift in Sources */,
 				140644B2292F338A003346F3 /* ErrorView.swift in Sources */,
-				141BE6122932EC2D000144AC /* ImageResolutionService.swift in Sources */,
+				141BE6122932EC2D000144AC /* TMDBImageResolutionService.swift in Sources */,
+				14E0692E2934F91900CBF5E5 /* TMDBConfiguration.swift in Sources */,
 				141BE6102932C9AE000144AC /* NavigationStackCoordinator.swift in Sources */,
 				1406449F292F143E003346F3 /* MediaStore.swift in Sources */,
 			);

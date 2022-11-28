@@ -18,11 +18,12 @@ extension MediaDetailView {
         var title: String {
             media.title
         }
+        
         var releaseDate: Date? {
             media.releaseDate
         }
+        
         var posterImage: ImageSource {
-            print("BOB: \(media.posterImage)")
             return media.posterImage
         }
         

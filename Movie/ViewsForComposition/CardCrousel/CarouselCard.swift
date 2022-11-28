@@ -15,12 +15,11 @@ struct CarouselCard: View {
                 SourcedImageView(imageSource: item.mediaReference.thumbnailImage,
                                  contentMode: .fill)
                                         .frame(width: Constants.cardSize.width,
-                                               height: Constants.cardSize.height - 70,
+                                               height: Constants.cardSize.height - 40,
                                                alignment: .top)
-                                        .clipped()
+                                        .clipped()//
                 detailsView
             }
-            .padding(.bottom)
         }
         .frame(width: Constants.cardSize.width, height: Constants.cardSize.height)
         .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
@@ -33,9 +32,7 @@ struct CarouselCard: View {
             Text(item.title)
                 .font(.subheadline)
                 .bold()
-                .truncationMode(.tail)
-                .padding([.leading, .top])
-                .scaledToFit()
+                .padding([.leading])
                 .lineLimit(2)
                 .allowsTightening(true)
             Spacer()

@@ -21,7 +21,12 @@ struct SourcedImageView: View {
     var body: some View {
         switch imageSource {
         case .noPoster:
-            ErrorView(message: "")
+            Image("no-photo-available")
+                .resizable()
+                .scaledToFit()
+                .aspectRatio(contentMode: contentMode)
+                .clipShape(RoundedRectangle(cornerRadius: 15.0))
+
         case .url(let url):
             AsyncImage(url: url) { image in
                 image
