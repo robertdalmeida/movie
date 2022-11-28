@@ -1,19 +1,12 @@
 import Foundation
 import Combine
 
-protocol Persistable {
-    associatedtype Value: Storable
-    func saveMedia(media: Value) async throws -> [Value]
-    func fetchStoredMedia() async throws -> [Value]
-    func removeMedia(media: Value) async throws -> [Value]
-}
+typealias Storable = Decodable & Encodable & Identifiable
 
-struct FileStorageService<T: Storable>: Persistable {
-    let folderName: String
-    init(folderName: String) {
-        self.folderName = folderName
-    }
-    var favoriteFolderPath: URL {
+struct FileStorageService<T: Storable> {
+    private let folderName: String
+    
+    private var favoriteFolderPath: URL {
         get throws {
             try FileManager.default.url(for: .documentDirectory,
                                          in: .userDomainMask,
@@ -23,34 +16,12 @@ struct FileStorageService<T: Storable>: Persistable {
         }
     }
     
-    private func fileURL(object: T) throws -> URL? {
-        return try favoriteFolderPath.appendingPathComponent("\(object.id)".appending(".json"), isDirectory: false)
+    // MARK: -  init
+    init(folderName: String) {
+        self.folderName = folderName
     }
     
-    private func createFavoriteDirectoryIfNecessary() throws {
-        try FileManager.default.createDirectory(at: try favoriteFolderPath, withIntermediateDirectories: true)
-    }
-    
-    private func urlsAtPath() throws -> [URL] {
-        try FileManager.default.contentsOfDirectory(at: try favoriteFolderPath, includingPropertiesForKeys: nil)
-    }
-    
-    private func load() throws -> [T] {
-        var storedValues: [T] = []
-        try createFavoriteDirectoryIfNecessary()
-        for url in try urlsAtPath() {
-            if let value = try transform(url: url) {
-                storedValues.append(value)
-            }
-        }
-        return storedValues
-    }
-    
-    private func transform(url: URL) throws -> T? {
-        let data = try Data(contentsOf: url)
-        let decoded = try JSONDecoder().decode(T.self, from: data)
-        return decoded
-    }
+    // MARK: -  Interfaces
     
     func saveMedia(media: T) async throws -> [T] {
         do {
@@ -82,12 +53,43 @@ struct FileStorageService<T: Storable>: Persistable {
             throw error
         }
     }
-}
 
-typealias Storable = Decodable & Encodable & Identifiable
+    // MARK: -  privater helpers
+    
+    private func fileURL(object: T) throws -> URL? {
+        return try favoriteFolderPath.appendingPathComponent("\(object.id)".appending(".json"), isDirectory: false)
+    }
+    
+    private func createFavoriteDirectoryIfNecessary() throws {
+        try FileManager.default.createDirectory(at: try favoriteFolderPath, withIntermediateDirectories: true)
+    }
+    
+    private func urlsAtPath() throws -> [URL] {
+        try FileManager.default.contentsOfDirectory(at: try favoriteFolderPath, includingPropertiesForKeys: nil)
+    }
+    
+    private func load() throws -> [T] {
+        var storedValues: [T] = []
+        try createFavoriteDirectoryIfNecessary()
+        for url in try urlsAtPath() {
+            if let value = try transform(url: url) {
+                storedValues.append(value)
+            }
+        }
+        return storedValues
+    }
+    
+    private func transform(url: URL) throws -> T? {
+        let data = try Data(contentsOf: url)
+        let decoded = try JSONDecoder().decode(T.self, from: data)
+        return decoded
+    }
+}
 
 final class FavoritesStore: ObservableObject {
     let storage: FileStorageService<Media> = .init(folderName: "Favorites")
+    let imageStore: ImagePersistentStoreService = .init()
+    let imageFetchService = ImageFetchingService()
     
     enum Status {
         case inProgress
@@ -110,8 +112,30 @@ final class FavoritesStore: ObservableObject {
     }
     
     func saveFavorite(media: Media) async throws {
+        switch media.posterImage {
+        case .url(let url):
+            let identifier = "\(media.id)_poster"
+            let image = try await imageFetchService.fetch(url)
+            try imageStore.saveImage(image: image, id: identifier).get()
+            media.posterImage = .localFile(fileIdentifier: identifier)
+        case .noPoster, .localFile:
+            break
+        }
+        
+        switch media.thumbnailImage {
+        case .url(let url):
+            let identifier = "\(media.id)_thumbnail"
+            let image = try await imageFetchService.fetch(url)
+            try imageStore.saveImage(image: image, id: identifier).get()
+            media.thumbnailImage = .localFile(fileIdentifier: identifier)
+        case .noPoster, .localFile:
+            break
+        }
+        
         self.status = .fetched(mediaContents: try await storage.saveMedia(media: media))
     }
+    
+    
     
     func removeFavorite(media: Media) async throws {
         self.status = .fetched(mediaContents: try await storage.removeMedia(media: media))

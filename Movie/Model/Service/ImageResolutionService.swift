@@ -16,10 +16,11 @@ final class ImageResolutionService {
         return configuration.posterURL(for: url, idealWidth: 200)
     }
     
+    
     func posterImageService(url: URL?) async -> URL? {
         guard let configuration = try? await tmdb.configurations.apiConfiguration().images else {
             return nil
         }
-        return configuration.posterURL(for: url, idealWidth: 200)
+        return configuration.posterURL(for: url)
     }
 }

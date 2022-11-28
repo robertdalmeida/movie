@@ -23,19 +23,8 @@ struct MediaDetailView: View {
     // MARK: -  Container views
     
     var mediaPoster: some View {
-        ZStack {
-            AsyncImage(url: viewModel.image) { image in
-                image
-                    .resizable()
-                    .scaledToFit()
-                    .clipShape(RoundedRectangle(cornerRadius: 15.0))
-            } placeholder: {
-                Spacer()
-                ProgressView()
-                Spacer()
-            }
+        SourcedImageView(imageSource: viewModel.posterImage)
             .padding([.leading, .trailing, .top])
-        }
     }
     
     var releaseDateAndRating: some View {

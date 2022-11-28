@@ -81,14 +81,16 @@ final class MediaStore {
     }
     
     // MARK: -  Helper
+    
+    // TODO: Move this to a separate type
     private func transform(movie: Movie) async -> Media {
         let imageURL = await imageResolutionService.cardImageService(url: movie.posterPath)
         let movieDetails = try? await tmdb.movies.details(forMovie: movie.id)
-        print("\(#function): movie:\(movieDetails)")
-        let genres: [String]? = movie.genres.map { $0.map(\.name)}
-        print("\(#function): \(movie.title) moviegenres:\(movie.genres)")
+        
         return Media(title: movie.title,
                      image: imageURL,
+                     posterImage: await posterImage(for: movie),
+                     thumbnailImage: await thumbnailPosterImage(for: movie),
                      id: movie.id,
                      releaseDate: movie.releaseDate,
                      tagLine: movie.tagline,
@@ -97,6 +99,28 @@ final class MediaStore {
                      popularity: movie.popularity,
                      voteAverage: movie.voteAverage,
                      adult: movie.adult,
-                     genres: genres)
+                     genres: genres(for: movie))
+    }
+    
+    private func genres(for movie: Movie) -> [String] {
+        movie.genres.map { $0.map(\.name)} ?? []
+    }
+    
+    private func posterImage(for movie: Movie) async -> ImageSource {
+        if let imageURL = await imageResolutionService.posterImageService(url: movie.posterPath) {
+            print("BOB: \(#function) - movie:\(movie.title) - posterImage:\(imageURL)")
+            return .url(imageURL)
+        } else {
+            return .noPoster
+        }
+    }
+    
+    private func thumbnailPosterImage(for movie: Movie) async -> ImageSource {
+        if let imageURL = await imageResolutionService.cardImageService(url: movie.posterPath) {
+            print("BOB: \(#function) - movie:\(movie.title) - thumbnailImage:\(imageURL)")
+            return .url(imageURL)
+        } else {
+            return .noPoster
+        }
     }
 }

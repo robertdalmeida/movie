@@ -3,9 +3,11 @@ import Foundation
 /// A application type to display any video/movie.
 /// External types need to translate to this type to be used in this application.
 /// Doing this to avoid adding any direct dependencies with any third party type.
-struct Media: Hashable, Codable, Identifiable {
+final class Media: Hashable, Codable, Identifiable {
     let title: String
     let image: URL?
+    var posterImage: ImageSource
+    var thumbnailImage: ImageSource
     let id: Int
     let releaseDate: Date?
     let tagLine: String?
@@ -15,16 +17,48 @@ struct Media: Hashable, Codable, Identifiable {
     let voteAverage: Double? // User Score
     let adult: Bool?
     let genres: [String]?
+    
+    init(title: String, image: URL?, posterImage: ImageSource, thumbnailImage: ImageSource, id: Int, releaseDate: Date?, tagLine: String?, language: String?, overview: String?, popularity: Double?, voteAverage: Double?, adult: Bool?, genres: [String]?) {
+        self.title = title
+        self.image = image
+        self.posterImage = posterImage
+        self.thumbnailImage = thumbnailImage
+        self.id = id
+        self.releaseDate = releaseDate
+        self.tagLine = tagLine
+        self.language = language
+        self.overview = overview
+        self.popularity = popularity
+        self.voteAverage = voteAverage
+        self.adult = adult
+        self.genres = genres
+    }
+    
+    static func == (lhs: Media, rhs: Media) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+      hasher.combine(id)
+    }
+}
+
+enum ImageSource : Codable, Hashable, Equatable {
+    case noPoster
+    case url(URL)
+    case localFile(fileIdentifier: String)
 }
 
 #if DEBUG
 extension Media {
-    init(title: String,
+    convenience init(title: String,
          image: URL?,
          id: Int,
          releaseDate: Date?) {
         self.init(title: title,
                   image: image,
+                  posterImage:  URL.mockBackdropImageURL != nil ? .url(URL.mockBackdropImageURL!) : .noPoster,
+                  thumbnailImage: URL.mockBackdropImageURL != nil ? .url(URL.mockBackdropImageURL!) : .noPoster,
                   id: id,
                   releaseDate: releaseDate,
                   tagLine: "Some tagline",
@@ -37,6 +71,8 @@ extension Media {
     }
     static let mock = Media(title: "Black Adam",
                             image: .mockImageUrlBlackAdam,
+                            posterImage:  URL.mockBackdropImageURL != nil ? .url(URL.mockBackdropImageURL!) :.noPoster,
+                            thumbnailImage: URL.mockBackdropImageURL != nil ? .url(URL.mockBackdropImageURL!) : .noPoster,
                             id: 123,
                             releaseDate: Date(),
                             tagLine: "",

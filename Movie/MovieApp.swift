@@ -3,11 +3,14 @@ import SwiftUI
 final class AppDependencies: ObservableObject {
     let mediaStore: MediaStore
     let favoriteStore: FavoritesStore
-
+    let imageStoreService: ImagePersistentStoreService
+    
     init(mediaStore: MediaStore = MediaStore(),
-         favoriteStore: FavoritesStore = FavoritesStore()) {
+         favoriteStore: FavoritesStore = FavoritesStore(),
+         imageStoreService: ImagePersistentStoreService = ImagePersistentStoreService()) {
         self.mediaStore = mediaStore
         self.favoriteStore = favoriteStore
+        self.imageStoreService = imageStoreService
     }
     
 #if DEBUG
@@ -22,6 +25,7 @@ struct MovieApp: App {
         WindowGroup {
             StartingView(viewModel: .init(appDependencies: appDependencies))
                 .environmentObject(appDependencies)
+                .environmentObject(appDependencies.imageStoreService)
         }
     }
 }

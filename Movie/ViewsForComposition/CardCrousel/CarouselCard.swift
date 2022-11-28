@@ -5,25 +5,19 @@ struct CarouselCard: View {
         static let cardSize: CGSize = CGSize(width: 180, height: 220)
         static let cornerRadius: CGFloat = 11.0
     }
+    
     let item: Item
+    
     var body: some View {
         ZStack {
             Color(.secondarySystemBackground)
             VStack {
-                AsyncImage(url: item.imageURL) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: Constants.cardSize.width,
-                               height: Constants.cardSize.height - 70,
-                               alignment: .top)
-                        .clipped()
-                        
-                } placeholder: {
-                    Spacer()
-                    ProgressView()
-                    Spacer()
-                }
+                SourcedImageView(imageSource: item.mediaReference.thumbnailImage,
+                                 contentMode: .fill)
+                                        .frame(width: Constants.cardSize.width,
+                                               height: Constants.cardSize.height - 70,
+                                               alignment: .top)
+                                        .clipped()
                 detailsView
             }
             .padding(.bottom)

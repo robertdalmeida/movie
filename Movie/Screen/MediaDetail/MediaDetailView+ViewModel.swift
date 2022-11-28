@@ -21,8 +21,9 @@ extension MediaDetailView {
         var releaseDate: Date? {
             media.releaseDate
         }
-        var image: URL? {
-            media.image
+        var posterImage: ImageSource {
+            print("BOB: \(media.posterImage)")
+            return media.posterImage
         }
         
         var userRating: Double {

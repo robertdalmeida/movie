@@ -37,6 +37,9 @@
 		14898B76293078D400018A5E /* URL+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14898B75293078D400018A5E /* URL+Mocks.swift */; };
 		14898B78293079C600018A5E /* DiscoverSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14898B77293079C600018A5E /* DiscoverSection.swift */; };
 		14E0692329341E8800CBF5E5 /* CircularIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E0692229341E8800CBF5E5 /* CircularIndicator.swift */; };
+		14E069252934AA7000CBF5E5 /* ImageStoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E069242934AA7000CBF5E5 /* ImageStoreService.swift */; };
+		14E069272934BBCF00CBF5E5 /* ImageSourcedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E069262934BBCF00CBF5E5 /* ImageSourcedImageView.swift */; };
+		14E069292934C3D200CBF5E5 /* ImageFetchingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E069282934C3D200CBF5E5 /* ImageFetchingService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +93,9 @@
 		14898B75293078D400018A5E /* URL+Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Mocks.swift"; sourceTree = "<group>"; };
 		14898B77293079C600018A5E /* DiscoverSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverSection.swift; sourceTree = "<group>"; };
 		14E0692229341E8800CBF5E5 /* CircularIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularIndicator.swift; sourceTree = "<group>"; };
+		14E069242934AA7000CBF5E5 /* ImageStoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStoreService.swift; sourceTree = "<group>"; };
+		14E069262934BBCF00CBF5E5 /* ImageSourcedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSourcedImageView.swift; sourceTree = "<group>"; };
+		14E069282934C3D200CBF5E5 /* ImageFetchingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFetchingService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +274,8 @@
 			isa = PBXGroup;
 			children = (
 				141BE6112932EC2D000144AC /* ImageResolutionService.swift */,
+				14E069242934AA7000CBF5E5 /* ImageStoreService.swift */,
+				14E069282934C3D200CBF5E5 /* ImageFetchingService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -295,6 +303,7 @@
 				141BE60E2932C8E0000144AC /* CardCrousel */,
 				141BE6082930FC74000144AC /* OfflineIndicator.swift */,
 				14E0692229341E8800CBF5E5 /* CircularIndicator.swift */,
+				14E069262934BBCF00CBF5E5 /* ImageSourcedImageView.swift */,
 			);
 			path = ViewsForComposition;
 			sourceTree = "<group>";
@@ -451,6 +460,7 @@
 				140644A6292F1A04003346F3 /* StartingView+ViewModel.swift in Sources */,
 				14898B65292F755C00018A5E /* HorizontalCarousel.swift in Sources */,
 				14E0692329341E8800CBF5E5 /* CircularIndicator.swift in Sources */,
+				14E069292934C3D200CBF5E5 /* ImageFetchingService.swift in Sources */,
 				141BE60D29326672000144AC /* FavoriteRow.swift in Sources */,
 				14898B74293074DC00018A5E /* Sequence+AsycMap.swift in Sources */,
 				141BE6172933050B000144AC /* MediaDetailView+ViewModel.swift in Sources */,
@@ -459,9 +469,11 @@
 				141BE6092930FC74000144AC /* OfflineIndicator.swift in Sources */,
 				14898B712930637F00018A5E /* Media.swift in Sources */,
 				141BE60B2930FE60000144AC /* FavoriteMediaStore.swift in Sources */,
+				14E069252934AA7000CBF5E5 /* ImageStoreService.swift in Sources */,
 				14898B5B292F5CBC00018A5E /* Localization.swift in Sources */,
 				14898B78293079C600018A5E /* DiscoverSection.swift in Sources */,
 				140644AC292F1BDA003346F3 /* DiscoverView.swift in Sources */,
+				14E069272934BBCF00CBF5E5 /* ImageSourcedImageView.swift in Sources */,
 				14064471292E4C37003346F3 /* MovieApp.swift in Sources */,
 				14898B76293078D400018A5E /* URL+Mocks.swift in Sources */,
 				140644AF292F2D12003346F3 /* MediaDetailView.swift in Sources */,
