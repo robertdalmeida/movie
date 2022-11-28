@@ -82,10 +82,9 @@ final class MediaStore {
     
     // MARK: -  Helper
     private func transform(movie: Movie) async -> Media {
-        let imageURL = await imageResolutionService.imageService(url: movie.posterPath)
-        let backdropImageURL = await imageResolutionService.backdropService(url: movie.posterPath)
-//        let movieDetails = try? await tmdb.movies.details(forMovie: movie.id)
-//        print("\(#function): movie:\(movieDetails)")
+        let imageURL = await imageResolutionService.cardImageService(url: movie.posterPath)
+        let movieDetails = try? await tmdb.movies.details(forMovie: movie.id)
+        print("\(#function): movie:\(movieDetails)")
         let genres: [String]? = movie.genres.map { $0.map(\.name)}
         print("\(#function): \(movie.title) moviegenres:\(movie.genres)")
         return Media(title: movie.title,
@@ -95,7 +94,6 @@ final class MediaStore {
                      tagLine: movie.tagline,
                      language: movie.originalLanguage,
                      overview: movie.overview,
-                     backdropPath: backdropImageURL,
                      popularity: movie.popularity,
                      voteAverage: movie.voteAverage,
                      adult: movie.adult,

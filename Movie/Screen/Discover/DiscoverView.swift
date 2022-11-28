@@ -7,10 +7,10 @@ struct DiscoverView: View {
         VStack {
             Spacer()
             DiscoverSection(viewModel: .init(context: .mostPopular,
-                                             store: appDependencies.storeService))
+                                             store: appDependencies.mediaStore))
             Spacer()
             DiscoverSection(viewModel:  .init(context: .nowPlaying,
-                                              store: appDependencies.storeService))
+                                              store: appDependencies.mediaStore))
             Spacer()
         }
         .background{

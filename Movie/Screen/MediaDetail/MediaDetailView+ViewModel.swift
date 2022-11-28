@@ -4,8 +4,9 @@ extension MediaDetailView {
     @MainActor
     final class ViewModel: ObservableObject {
         let media: Media
-        let favoriteStoreService: FavoritesStore
-        
+        let favoriteStore: FavoritesStore
+        let mediaStore: MediaStore
+
         enum FavoriteButtonState {
             case notAFavorite
             case favorite
@@ -13,8 +14,6 @@ extension MediaDetailView {
         }
         
         @Published var favoriteButtonState: FavoriteButtonState = .notAFavorite
-        
-        var offline: Bool = false
         
         var title: String {
             media.title
@@ -30,25 +29,25 @@ extension MediaDetailView {
             (media.voteAverage ?? 0) * 0.1
         }
         
-        init(media: Media, favoriteStoreService: FavoritesStore, offline: Bool) {
+        init(media: Media, favoriteStore: FavoritesStore, mediaStore: MediaStore) {
             self.media = media
-            self.favoriteStoreService = favoriteStoreService
-            self.offline = offline
+            self.favoriteStore = favoriteStore
+            self.mediaStore = mediaStore
             checkFavorite()
         }
         
         // MARK: -  Favorite Button State
         func checkFavorite() {
-            self.favoriteButtonState = favoriteStoreService.isMediaAFavorite(media: media) ? .favorite : .notAFavorite
+            self.favoriteButtonState = favoriteStore.isMediaAFavorite(media: media) ? .favorite : .notAFavorite
         }
         
         func favoriteButtonTapped() async {
             self.favoriteButtonState = .inProgress
             do {
-                if favoriteStoreService.isMediaAFavorite(media: media) {
-                    try await favoriteStoreService.removeFavorite(media: media)
+                if favoriteStore.isMediaAFavorite(media: media) {
+                    try await favoriteStore.removeFavorite(media: media)
                 } else {
-                    try await favoriteStoreService.saveFavorite(media: media)
+                    try await favoriteStore.saveFavorite(media: media)
                 }
                 checkFavorite()
             } catch {

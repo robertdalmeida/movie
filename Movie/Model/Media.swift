@@ -11,7 +11,6 @@ struct Media: Hashable, Codable, Identifiable {
     let tagLine: String?
     let language: String?
     let overview: String?
-    let backdropPath: URL?
     let popularity: Double?
     let voteAverage: Double? // User Score
     let adult: Bool?
@@ -31,7 +30,6 @@ extension Media {
                   tagLine: "Some tagline",
                   language: "English",
                   overview: "Movie overview",
-                  backdropPath: nil,
                   popularity: 10.4,
                   voteAverage: 9.4,
                   adult: true,
@@ -44,7 +42,6 @@ extension Media {
                             tagLine: "",
                             language: nil,
                             overview: "Duizenden jaren geleden kreeg een man magische krachten toebedeeld van tovenaar Shazam. Nadat de man zijn gaven voor kwaadaardige doeleinden gebruikte, werd hij eeuwenlang gevangen gezet. Nu staat hij op het punt eindelijk vrij te komen.",
-                            backdropPath: .mockBackdropImageURL,
                             popularity: 16093.223,
                             voteAverage: 7.2,
                             adult: false,

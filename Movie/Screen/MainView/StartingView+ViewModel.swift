@@ -23,8 +23,8 @@ extension StartingView {
         func initiateStartSequence() async {
             self.state = .loading
             Task {
-                async let storeServiceStatus = appDependencies.storeService.initialize()
-                async let favoriteInitializationStatus = appDependencies.favoriteService.initialize()
+                async let storeServiceStatus = appDependencies.mediaStore.initialize()
+                async let favoriteInitializationStatus = appDependencies.favoriteStore.initialize()
 
                 switch (await storeServiceStatus, await favoriteInitializationStatus) {
                 case (.failure, .failure):

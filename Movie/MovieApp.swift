@@ -1,17 +1,17 @@
 import SwiftUI
 
 final class AppDependencies: ObservableObject {
-    let storeService: MediaStore
-    let favoriteService: FavoritesStore
+    let mediaStore: MediaStore
+    let favoriteStore: FavoritesStore
 
-    init(storeService: MediaStore = MediaStore(),
-         favoriteService: FavoritesStore = FavoritesStore()) {
-        self.storeService = storeService
-        self.favoriteService = favoriteService
+    init(mediaStore: MediaStore = MediaStore(),
+         favoriteStore: FavoritesStore = FavoritesStore()) {
+        self.mediaStore = mediaStore
+        self.favoriteStore = favoriteStore
     }
     
 #if DEBUG
-    static let mock = AppDependencies(storeService: .mock(), favoriteService: .mock)
+    static let mock = AppDependencies(mediaStore: .mock(), favoriteStore: .mock)
 #endif
 }
 

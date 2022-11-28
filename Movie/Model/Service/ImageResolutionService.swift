@@ -9,18 +9,17 @@ final class ImageResolutionService {
         self.tmdb = tmdb
     }
     
-    func imageService(url: URL?) async -> URL? {
+    func cardImageService(url: URL?) async -> URL? {
         guard let configuration = try? await tmdb.configurations.apiConfiguration().images else {
             return nil
         }
-        return configuration.posterURL(for: url)
+        return configuration.posterURL(for: url, idealWidth: 200)
     }
     
-    func backdropService(url: URL?) async -> URL? {
+    func posterImageService(url: URL?) async -> URL? {
         guard let configuration = try? await tmdb.configurations.apiConfiguration().images else {
             return nil
         }
-        return configuration.backdropURL(for: url)
-
+        return configuration.posterURL(for: url, idealWidth: 200)
     }
 }

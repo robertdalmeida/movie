@@ -11,8 +11,8 @@ struct StartingView: View {
             ZStack{ view }
             .navigationDestination(for: Media.self) {
                 MediaDetailView(viewModel: .init(media: $0,
-                                                 favoriteStoreService: appDependencies.favoriteService,
-                                                 offline: false))
+                                                 favoriteStore: appDependencies.favoriteStore,
+                                                 mediaStore: appDependencies.mediaStore))
             }
             .environmentObject(mediaNavigationCoordinator)
         }
@@ -53,14 +53,14 @@ struct StartingView: View {
                     Label(Localised.discoverTabBarItemTitle,
                           systemImage: "list.dash")
                 }
-                .environmentObject(appDependencies.favoriteService)
+                .environmentObject(appDependencies.favoriteStore)
 
-            FavoritesView(viewModel: .init(favoriteStoreService: appDependencies.favoriteService))
+            FavoritesView(viewModel: .init(favoriteStoreService: appDependencies.favoriteStore))
                 .tabItem {
                     Label(Localised.favoriteTabBarItemTitle,
                           systemImage: "person.circle")
                 }
-                .environmentObject(appDependencies.favoriteService)
+                .environmentObject(appDependencies.favoriteStore)
         }
     }
     
