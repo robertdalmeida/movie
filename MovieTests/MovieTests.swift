@@ -1,10 +1,3 @@
-//
-//  MovieTests.swift
-//  MovieTests
-//
-//  Created by Robert D'Almeida on 23/11/2022.
-//
-
 import XCTest
 @testable import Movie
 
