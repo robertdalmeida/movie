@@ -19,7 +19,7 @@ enum ServicedData<T> {
     case error(StoreServiceError)
 }
 
-final class MediaStore {
+final class MediaStore: ObservableObject {
     lazy var movieDetailsMediaStore: TMDBDiscoverMovieDetailService = {
         TMDBDiscoverMovieDetailService(configuration: .shared)
     }()

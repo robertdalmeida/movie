@@ -7,6 +7,7 @@ struct CarouselCard: View {
     }
     
     let item: Item
+    @EnvironmentObject var imageStore: ImageStore
     
     var body: some View {
         ZStack {

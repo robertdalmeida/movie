@@ -21,10 +21,14 @@ final class AppDependencies: ObservableObject {
 @main
 struct MovieApp: App {
     @StateObject var appDependencies = AppDependencies()
+    
     var body: some Scene {
         WindowGroup {
             StartingView(viewModel: .init(appDependencies: appDependencies))
                 .environmentObject(appDependencies)
+                .environmentObject(appDependencies.imageStoreService)
+                .environmentObject(appDependencies.favoriteStore)
+                .environmentObject(appDependencies.mediaStore)
         }
     }
 }

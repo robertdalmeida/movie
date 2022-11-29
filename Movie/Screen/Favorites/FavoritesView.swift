@@ -3,7 +3,7 @@ import Combine
 
 struct FavoritesView: View {
     @EnvironmentObject var appDependencies: AppDependencies
-    @ObservedObject var viewModel: ViewModel
+    @StateObject var viewModel: ViewModel
     
     var body: some View {
         VStack {
@@ -43,11 +43,11 @@ extension FavoritesView {
         let favoriteStoreService: FavoritesStore
         private var anyCancellables: [AnyCancellable] = []
         
-        enum State {
+        enum ViewState {
             case noFavorites
             case loaded
         }
-        @Published var state: State = .noFavorites
+        var state: ViewState = .noFavorites
         
         init(favoriteStoreService: FavoritesStore) {
             self.favoriteStoreService = favoriteStoreService
