@@ -34,9 +34,6 @@ struct StartingView: View {
                            startPoint: .top,
                            endPoint: .bottom)
             .ignoresSafeArea()
-        }.refreshable {
-            await viewModel.initiateStartSequence(mediaStore: mediaStore,
-                                                  favoriteStore: favoriteStore)
         }
     }
     
