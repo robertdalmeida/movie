@@ -25,7 +25,6 @@ struct MovieApp: App {
         WindowGroup {
             StartingView(viewModel: .init(appDependencies: appDependencies))
                 .environmentObject(appDependencies)
-                .environmentObject(appDependencies.imageStoreService)
         }
     }
 }
