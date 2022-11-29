@@ -41,11 +41,11 @@ extension DiscoverSection {
         }
         
         let context: Context
-        let store: MediaStoreProtocol
+        let store: MediaCategoryStoreProtocol
         var mediaItems: [Media] = []
         var state: State = .noData
         
-        init(context: Context, store: MediaStoreProtocol) {
+        init(context: Context, store: MediaCategoryStoreProtocol) {
             self.context = context
             self.store = store
             

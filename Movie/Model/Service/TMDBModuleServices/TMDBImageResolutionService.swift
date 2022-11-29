@@ -15,7 +15,6 @@ final class TMDBImageResolutionService {
         return configuration.posterURL(for: url, idealWidth: 200)
     }
     
-    
     func posterImageService(url: URL?) async -> URL? {
         guard let configuration = try? await configuration.tmdb.configurations.apiConfiguration().images else {
             return nil

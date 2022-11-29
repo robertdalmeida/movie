@@ -5,9 +5,9 @@ extension HorizontalCarousel {
 
     final class Store: ObservableObject {
         @Published var items: [CarouselCard.Item]
-        let mediaStore: MediaStoreProtocol
+        let mediaStore: MediaCategoryStoreProtocol
 
-        init(mediaStore: MediaStoreProtocol) {
+        init(mediaStore: MediaCategoryStoreProtocol) {
             self.mediaStore = mediaStore
             items = []
             

@@ -9,10 +9,10 @@ extension PlainCarousel {
             case loaded
         }
         @Published var items: [CarouselCard.Item]
-        let mediaStore: MediaStoreProtocol
+        let mediaStore: MediaCategoryStoreProtocol
         var state: State
         
-        init(mediaStore: MediaStoreProtocol) {
+        init(mediaStore: MediaCategoryStoreProtocol) {
             items = []
             self.mediaStore = mediaStore
             state = .loading

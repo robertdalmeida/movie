@@ -1,33 +1,5 @@
 import Foundation
 import struct TMDb.Movie
-import class TMDb.TMDbAPI
-
-final class TMDBDiscoverServiceWrapper {
-    let configuration: TMDBConfiguration
-    lazy var adaptor: TMDBDMediaAdaptor = { TMDBDMediaAdaptor(configuration: configuration) }()
-    
-    private var popularMovies: [TMDb.Movie] = []
-    private var nowPlayingMovies: [TMDb.Movie] = []
-
-    init(configuration: TMDBConfiguration) {
-        self.configuration = configuration
-    }
-    
-    func fetchPopularMedia(page: Int) async throws -> (media:[Media], totalPages: Int?, currentPage: Int?)  {
-        let movieResult = try await configuration.tmdb.discover.movies(sortedBy: .popularity(), withPeople: nil, page: page)
-        return (await movieResult.results.asyncMap(adaptor.transform(movie:)), movieResult.totalPages, movieResult.page)
-    }
-    
-    func fetchNowPlayingMedia(page: Int) async throws -> (media:[Media], totalPages: Int?, currentPage: Int?)  {
-        let movieResult = try await configuration.tmdb.discover.movies(sortedBy: .primaryReleaseDate(descending: true), withPeople: nil, page: nil)
-        return (await movieResult.results.asyncMap(adaptor.transform(movie:)), movieResult.totalPages, movieResult.page)
-    }
-    
-    func fetchMediaDetail(media: Media) async throws -> Media {
-        let movie = try await configuration.tmdb.movies.details(forMovie: media.id)
-        return await adaptor.transform(movie: movie)
-    }
-}
 
 struct TMDBDMediaAdaptor{
     let imageResolutionService = TMDBImageResolutionService(configuration: .shared)
