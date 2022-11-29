@@ -60,7 +60,13 @@ final class MediaStore {
     
     // MARK: -  DEBUG
     #if DEBUG
-    static let mock = MediaStore()
+    static var mock: MediaStore {
+        let store = MediaStore()
+        Task {
+            await store.initialize()
+        }
+        return store
+    }
     #endif
 }
 

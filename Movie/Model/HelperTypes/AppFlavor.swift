@@ -8,6 +8,8 @@ enum AppThemeColor {
 
 enum AppFontStyle {
     case title
+    case sectionTitle
+
     case cellTitle
     case errorText
     case readingContent
@@ -15,6 +17,8 @@ enum AppFontStyle {
     var font: Font {
         switch self {
         case .title: return .title
+        case .sectionTitle: return .title2
+
         case .cellTitle: return .subheadline
         case .errorText: return .headline
         case .readingContent: return .footnote
@@ -24,6 +28,7 @@ enum AppFontStyle {
     var fontDesign: Font.Design {
         switch self {
         case .title: return .rounded
+        case .sectionTitle: return .rounded
         case .cellTitle: return .rounded
         case .errorText: return .monospaced
         case .readingContent: return .default

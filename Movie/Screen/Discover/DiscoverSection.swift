@@ -5,10 +5,12 @@ struct DiscoverSection: View {
 
     var body: some View {
         VStack {
+            Spacer()
             HStack {
                 Text(viewModel.title)
-                    .applyAppStyle(.title)
+                    .applyAppStyle(.sectionTitle)
                     .padding()
+                    .offset(y: 20)
                 Spacer()
             }
             switch viewModel.state {
@@ -17,6 +19,7 @@ struct DiscoverSection: View {
             case .showMedia:
                 PlainCarousel(viewModel: .init(mediaStore: viewModel.store))
             }
+            Spacer()
         }
     }
 }
@@ -72,11 +75,11 @@ extension DiscoverSection {
     }
 }
 
-//#if DEBUG
-//struct DiscoverSection_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DiscoverSection(viewModel: .init(context: .mostPopular, store: ))
-//            .configure()
-//    }
-//}
-//#endif
+#if DEBUG
+struct DiscoverSection_Previews: PreviewProvider {
+    static var previews: some View {
+        DiscoverSection(viewModel: .init(context: .nowPlaying, store: MockStore()))
+            .configure()
+    }
+}
+#endif

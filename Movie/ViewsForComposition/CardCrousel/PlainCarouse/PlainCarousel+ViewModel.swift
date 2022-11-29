@@ -1,4 +1,4 @@
-import SwiftUI
+import Foundation
 
 extension PlainCarousel {
     @MainActor
@@ -30,7 +30,7 @@ extension PlainCarousel {
                 self.state = .loaded
             }
         }
-        
+        //TODO: Separate the pagination into a separate type.
         func appendMoreMovies(_ movies: [Media]) {
             var theLastValidOrder = self.items.last?.id ?? 0
             theLastValidOrder += 1
@@ -71,39 +71,3 @@ extension PlainCarousel {
         }
     }
 }
-
-struct PlainCarousel: View {
-    @ObservedObject var viewModel: ViewModel
-    @EnvironmentObject var mediaNavigationCoordinator: MediaNavigationCoordinator
-    
-    var body: some View {
-        ScrollView(.horizontal) {
-            LazyHStack {
-                ForEach(viewModel.items) { item in
-                    CarouselCard(item: item)
-                        .onAppear {
-                            viewModel.onAppear(item: item)
-                        }
-                        .onTapGesture {
-                            mediaNavigationCoordinator.navigateDetail(media: item.mediaReference)
-                        }
-                        .padding(.all, 10)
-                }
-                
-//                if store.isLoadingPage {
-//                    ProgressView()
-//                }
-            }
-        }
-    }
-}
-
-//#if DEBUG
-//struct PlainCarousel_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PlainCarousel(viewModel: .init(mediaItems: [.mock, .mock2, .mock3], mediaStore: .mock()))
-//            .frame(width: 400, height: 300)
-//    }
-//}
-//#endif
-//

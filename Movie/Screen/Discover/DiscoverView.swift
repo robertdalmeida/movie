@@ -2,19 +2,22 @@ import SwiftUI
 
 struct DiscoverView: View {
     @EnvironmentObject var appDependencies: AppDependencies
-
+    let popularMediaStore: MediaCategoryStoreProtocol
+    let nowPlayingMediaStore: MediaCategoryStoreProtocol
+    
     var body: some View {
         VStack {
             HStack {
                 Text("Discover Movies")
                     .applyAppStyle(.title)
+                    .padding([.top])
             }
             Spacer()
             DiscoverSection(viewModel: .init(context: .mostPopular,
-                                             store: appDependencies.mediaStore.popularMediaStore))
+                                             store: popularMediaStore))
             Spacer()
             DiscoverSection(viewModel:  .init(context: .nowPlaying,
-                                              store: appDependencies.mediaStore.nowPlayingMediaStore))
+                                              store: nowPlayingMediaStore))
             Spacer()
         }
         .background{
@@ -33,8 +36,8 @@ struct DiscoverView: View {
 #if DEBUG
 struct DiscoverView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverView()
-            .configure()
+        DiscoverView(popularMediaStore: MockStore(),
+                     nowPlayingMediaStore: MockStore())
     }
 }
 #endif

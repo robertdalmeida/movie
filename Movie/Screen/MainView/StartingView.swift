@@ -48,7 +48,8 @@ struct StartingView: View {
     
     private var tabView: some View {
         TabView {
-            DiscoverView()
+            DiscoverView(popularMediaStore: appDependencies.mediaStore.popularMediaStore,
+                         nowPlayingMediaStore: appDependencies.mediaStore.nowPlayingMediaStore)
                 .tabItem {
                     Label(Localised.discoverTabBarItemTitle,
                           systemImage: "list.dash")
