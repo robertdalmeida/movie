@@ -9,20 +9,31 @@ struct FavoritesView: View {
         VStack {
             Text("Favorites")
                 .applyAppStyle(.title)
-            List {
-                ForEach(viewModel.favorites) { item in
-                    NavigationLink {
-                        MediaDetailView(viewModel: .init(media: item,
-                                                         favoriteStore: appDependencies.favoriteStore,
-                                                         mediaStore: appDependencies.mediaStore))
-                    } label: {
-                        FavoriteRow(item: item)
-                    }
-                }
-                .onDelete(perform: viewModel.deleteFavorite(at:))
+            switch viewModel.state {
+            case .noFavorites:
+                Spacer()
+                Text("No favorites to display - look for the 💙")
+                Spacer()
+            case .loaded:
+                listOfFavorites
             }
-            .listStyle(.insetGrouped)
         }
+    }
+    
+    var listOfFavorites: some View {
+        List {
+            ForEach(viewModel.favorites) { item in
+                NavigationLink {
+                    MediaDetailView(viewModel: .init(media: item,
+                                                     favoriteStore: appDependencies.favoriteStore,
+                                                     mediaStore: appDependencies.mediaStore))
+                } label: {
+                    FavoriteRow(item: item)
+                }
+            }
+            .onDelete(perform: viewModel.deleteFavorite(at:))
+        }
+        .listStyle(.insetGrouped)
     }
 }
 
@@ -32,6 +43,12 @@ extension FavoritesView {
         let favoriteStoreService: FavoritesStore
         private var anyCancellables: [AnyCancellable] = []
         
+        enum State {
+            case noFavorites
+            case loaded
+        }
+        @Published var state: State = .noFavorites
+        
         init(favoriteStoreService: FavoritesStore) {
             self.favoriteStoreService = favoriteStoreService
 
@@ -40,7 +57,9 @@ extension FavoritesView {
                     switch status {
                     case .fetched(mediaContents: let favorites):
                         self.favorites = favorites
+                        self.state = .loaded
                     case .notInitialized, .error:
+                        self.state = .noFavorites
                         break
                     }
                 }.store(in: &anyCancellables)
