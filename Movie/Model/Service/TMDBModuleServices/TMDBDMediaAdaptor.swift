@@ -5,8 +5,9 @@ struct TMDBDMediaAdaptor{
     let imageResolutionService = TMDBImageResolutionService(configuration: .shared)
     let configuration: TMDBConfiguration
 
-    func transform(movie: TMDb.Movie) async -> Media {
+    func transform(movie: TMDb.Movie) async throws -> Media {
         let imageURL = await imageResolutionService.cardImageService(url: movie.posterPath)
+        var movie = try await configuration.tmdb.movies.details(forMovie: movie.id)
         
         return Media(title: movie.title,
                      image: imageURL,

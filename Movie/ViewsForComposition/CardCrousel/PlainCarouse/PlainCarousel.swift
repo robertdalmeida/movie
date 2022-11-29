@@ -2,7 +2,7 @@ import SwiftUI
 
 
 struct PlainCarousel: View {
-    @ObservedObject var viewModel: ViewModel
+    @StateObject var viewModel: ViewModel
     @EnvironmentObject var mediaNavigationCoordinator: MediaNavigationCoordinator
     
     var body: some View {

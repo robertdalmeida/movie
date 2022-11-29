@@ -56,20 +56,11 @@ extension DiscoverSection {
             self.context = context
             self.store = store
             
-            let initializatinBlock: (ServicedData<PagedResult>) -> State = { servicedData in
-                switch servicedData {
-                case .uninitalized, .error:
-                    return .noData
-                case .data:
-                    return .showMedia
-                }
-            }
-            
-            switch context {
-            case .nowPlaying:
-                self.state = initializatinBlock(store.movies)
-            case .mostPopular:
-                self.state = initializatinBlock(store.movies)
+            switch store.movies {
+            case .uninitalized, .error:
+                self.state = .noData
+            case .data:
+                self.state = .showMedia
             }
         }
         

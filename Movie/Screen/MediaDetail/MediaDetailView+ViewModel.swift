@@ -6,13 +6,6 @@ extension MediaDetailView {
         var media: Media
         let favoriteStore: FavoritesStore
         let mediaStore: MediaStore
-
-        enum DetailViewState: Equatable {
-            case loading
-            case error
-            case loaded
-        }
-        @Published var state: DetailViewState
         
         enum FavoriteButtonState: Equatable {
             case notAFavorite
@@ -41,23 +34,9 @@ extension MediaDetailView {
             self.media = media
             self.favoriteStore = favoriteStore
             self.mediaStore = mediaStore
-            self.state = .error
-            initialize()
             checkFavorite()
         }
-        
-        func initialize() {
-            Task {
-                state = .loading
-                do {
-                    media = try await mediaStore.fetchMediaDetail(media: media)
-                    self.state = .loaded
-                } catch {
-                    self.state = .error
-                }
-            }
-        }
-        
+                
         // MARK: -  Favorite Button State
         func checkFavorite() {
             self.favoriteButtonState = favoriteStore.isMediaAFavorite(media: media) ? .favorite : .notAFavorite
@@ -73,7 +52,9 @@ extension MediaDetailView {
                 }
                 checkFavorite()
             } catch {
-                // TODO: Error handling if something doesn't change.
+                // TODO: Error handling if something doesn't change. Ideally wrtie to a property and show a message / show error state in the button itself for a few seconds and then move to the default state.
+                print("\(#function): error:\(error)")
+                self.favoriteButtonState = .notAFavorite
             }
         }
     }

@@ -11,22 +11,7 @@ final class FavoritesStore: ObservableObject {
     }
     
     @Published var status: Status = .error
-    
-    @discardableResult
-    func initialize() -> Result<Void, Error> {
-        do {
-            let mediaContents = try storage.ids().map{
-                let data = try storage.fetchData(id: $0).get()
-                return try JSONDecoder().decode(Media.self, from: data)
-            }
-            self.status = .fetched(mediaContents: mediaContents)
-            return .success(Void())
-        } catch {
-            self.status = .error
-            return .failure(error)
-        }
-    }
-    
+        
     func initializeAgain() async {
         do {
             let mediaContents = try storage.ids().map{

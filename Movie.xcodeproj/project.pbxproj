@@ -258,7 +258,6 @@
 		141BE6132932F409000144AC /* Store */ = {
 			isa = PBXGroup;
 			children = (
-				14E0693329358CE900CBF5E5 /* SubMediaStores */,
 				14E069242934AA7000CBF5E5 /* ImageStore.swift */,
 				1406449E292F143E003346F3 /* MediaStore.swift */,
 				141BE60A2930FE60000144AC /* FavoriteMediaStore.swift */,
@@ -326,13 +325,6 @@
 				14E06938293591AC00CBF5E5 /* TMDBDMediaAdaptor.swift */,
 			);
 			path = TMDBModuleServices;
-			sourceTree = "<group>";
-		};
-		14E0693329358CE900CBF5E5 /* SubMediaStores */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SubMediaStores;
 			sourceTree = "<group>";
 		};
 		14E069422935F0D800CBF5E5 /* PlainCarouse */ = {

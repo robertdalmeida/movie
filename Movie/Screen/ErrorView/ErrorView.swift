@@ -4,10 +4,12 @@ import SwiftUI
 struct ErrorView: View {
     let message: String
     var body: some View {
-        Text("⚠️")
-            .applyAppStyle(.errorText)
-        Text(message)
-            .applyAppStyle(.errorText)
+        VStack {
+            Text("⚠️")
+                .applyAppStyle(.title)
+            Text(message)
+                .applyAppStyle(.errorText)
+        }.padding()
     }
 }
 

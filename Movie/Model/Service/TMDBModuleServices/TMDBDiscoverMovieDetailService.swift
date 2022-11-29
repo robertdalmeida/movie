@@ -12,6 +12,6 @@ final class TMDBDiscoverMovieDetailService {
     
     func fetchMediaDetail(media: Media) async throws -> Media {
         let movie = try await configuration.tmdb.movies.details(forMovie: media.id)
-        return await adaptor.transform(movie: movie)
+        return try await adaptor.transform(movie: movie)
     }
 }

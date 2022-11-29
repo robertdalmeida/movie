@@ -5,6 +5,13 @@ import UIKit
 actor ImageFetchingService {
     private var images: [URL: ImageRequestStatus] = [:]
 
+    lazy var urlSession: URLSession = {
+        let session = URLSession.shared
+        session.configuration.timeoutIntervalForRequest = 3.0
+        session.configuration.timeoutIntervalForResource = 3.0
+        return session
+    }()
+    
     private enum ImageRequestStatus {
         case inProgress(Task<UIImage, Error>)
     }
@@ -22,7 +29,7 @@ actor ImageFetchingService {
         }
 
         let task = Task {
-            let (imageData, _) = try await URLSession.shared.data(for: URLRequest(url: url))
+            let (imageData, _) = try await urlSession.data(for: URLRequest(url: url))
             if let image = UIImage(data: imageData) {
                 return image
             } else {

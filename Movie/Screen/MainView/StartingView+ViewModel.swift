@@ -25,6 +25,8 @@ extension StartingView {
                 switch (await storeServiceStatus, favoriteStore.status) {
                 case (.failure, .error):
                     self.state = .error
+                case (.failure, .fetched(let favorites)) where favorites.isEmpty:
+                    self.state = .error
                 case (.failure, .fetched):
                     self.state = .showLocalData
                 case (.success, .fetched),

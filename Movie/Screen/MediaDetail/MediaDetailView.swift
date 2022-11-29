@@ -9,21 +9,14 @@ struct MediaDetailView: View {
     @EnvironmentObject var imageStore: ImageStore
     var body: some View {
         ZStack {
-            switch viewModel.state {
-            case .loading:
-                ProgressView()
-            case .loaded:
-                ScrollView {
-                    VStack{
-                        mediaPoster
-                        mediaTitleRow
-                        releaseDateAndRating
-                        genreView
-                        movieDetails
-                    }
+            ScrollView {
+                VStack{
+                    mediaPoster
+                    mediaTitleRow
+                    releaseDateAndRating
+                    genreView
+                    movieDetails
                 }
-            case .error:
-                ErrorView(message: "")
             }
         }
         .navigationTitle(viewModel.title)
