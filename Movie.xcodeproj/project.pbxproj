@@ -43,6 +43,7 @@
 		14E0692C2934F86400CBF5E5 /* TMDBDiscoverServiceWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E0692B2934F86400CBF5E5 /* TMDBDiscoverServiceWrapper.swift */; };
 		14E0692E2934F91900CBF5E5 /* TMDBConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E0692D2934F91900CBF5E5 /* TMDBConfiguration.swift */; };
 		14E0693029350D5600CBF5E5 /* FileStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E0692F29350D5600CBF5E5 /* FileStorageService.swift */; };
+		14E069322935704500CBF5E5 /* PlainCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E069312935704500CBF5E5 /* PlainCarousel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,7 @@
 		14E0692B2934F86400CBF5E5 /* TMDBDiscoverServiceWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBDiscoverServiceWrapper.swift; sourceTree = "<group>"; };
 		14E0692D2934F91900CBF5E5 /* TMDBConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBConfiguration.swift; sourceTree = "<group>"; };
 		14E0692F29350D5600CBF5E5 /* FileStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileStorageService.swift; sourceTree = "<group>"; };
+		14E069312935704500CBF5E5 /* PlainCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainCarousel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -263,6 +265,7 @@
 			children = (
 				14898B64292F755C00018A5E /* HorizontalCarousel.swift */,
 				14898B66292F756C00018A5E /* CarouselCard.swift */,
+				14E069312935704500CBF5E5 /* PlainCarousel.swift */,
 			);
 			path = CardCrousel;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				140644AF292F2D12003346F3 /* MediaDetailView.swift in Sources */,
 				140644B2292F338A003346F3 /* ErrorView.swift in Sources */,
 				141BE6122932EC2D000144AC /* TMDBImageResolutionService.swift in Sources */,
+				14E069322935704500CBF5E5 /* PlainCarousel.swift in Sources */,
 				14E0692E2934F91900CBF5E5 /* TMDBConfiguration.swift in Sources */,
 				141BE6102932C9AE000144AC /* NavigationStackCoordinator.swift in Sources */,
 				1406449F292F143E003346F3 /* MediaStore.swift in Sources */,

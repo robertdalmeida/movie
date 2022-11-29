@@ -13,14 +13,14 @@ final class TMDBDiscoverServiceWrapper {
         self.configuration = configuration
     }
     
-    func fetchPopularMedia() async throws -> [Media]  {
-        let movieResult = try await configuration.tmdb.discover.movies(sortedBy: .popularity(), withPeople: nil, page: nil)
-        return await movieResult.results.asyncMap(adaptor.transform(movie:))
+    func fetchPopularMedia(page: Int) async throws -> (media:[Media], totalPages: Int?, currentPage: Int?)  {
+        let movieResult = try await configuration.tmdb.discover.movies(sortedBy: .popularity(), withPeople: nil, page: page)
+        return (await movieResult.results.asyncMap(adaptor.transform(movie:)), movieResult.totalPages, movieResult.page)
     }
     
-    func fetchNowPlayingMedia() async throws -> [Media]  {
+    func fetchNowPlayingMedia(page: Int) async throws -> (media:[Media], totalPages: Int?, currentPage: Int?)  {
         let movieResult = try await configuration.tmdb.discover.movies(sortedBy: .primaryReleaseDate(descending: true), withPeople: nil, page: nil)
-        return await movieResult.results.asyncMap(adaptor.transform(movie:))
+        return (await movieResult.results.asyncMap(adaptor.transform(movie:)), movieResult.totalPages, movieResult.page)
     }
     
     func fetchMediaDetail(media: Media) async throws -> Media {

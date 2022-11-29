@@ -141,7 +141,7 @@ struct MediaDetailView: View {
 struct MovieDetailView_Previews: PreviewProvider {
     static var previews: some View {
         MediaDetailView(viewModel: .init(media: .mock,
-                                         favoriteStore: .mock, mediaStore: .mock()))
+                                         favoriteStore: .mock, mediaStore: .mock))
             .configure()
     }
 }

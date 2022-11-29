@@ -14,8 +14,8 @@ struct DiscoverSection: View {
             switch viewModel.state {
             case .noData:
                 ErrorView(message: "Unable to fetch")
-            case .showMedia(let mediaItems):
-                HorizontalCarousel(store: .init(mediaItems: mediaItems))
+            case .showMedia:
+                PlainCarousel(viewModel: .init(mediaStore: viewModel.store))
             }
         }
     }
@@ -37,32 +37,32 @@ extension DiscoverSection {
         
         enum State {
             case noData
-            case showMedia([Media])
+            case showMedia
         }
         
         let context: Context
-        let store: MediaStore
+        let store: MediaStoreProtocol
         var mediaItems: [Media] = []
         var state: State = .noData
         
-        init(context: Context, store: MediaStore) {
+        init(context: Context, store: MediaStoreProtocol) {
             self.context = context
             self.store = store
             
-            let initializatinBlock: (MediaStore.ServicedData<[Media]>) -> State = { servicedData in
+            let initializatinBlock: (ServicedData<PagedResult>) -> State = { servicedData in
                 switch servicedData {
                 case .uninitalized, .error:
                     return .noData
-                case .data(let mediaItems):
-                    return .showMedia(mediaItems)
+                case .data:
+                    return .showMedia
                 }
             }
             
             switch context {
             case .nowPlaying:
-                self.state = initializatinBlock(store.nowPlayingMovies)
+                self.state = initializatinBlock(store.movies)
             case .mostPopular:
-                self.state = initializatinBlock(store.popularMovies)
+                self.state = initializatinBlock(store.movies)
             }
         }
         
@@ -72,11 +72,11 @@ extension DiscoverSection {
     }
 }
 
-#if DEBUG
-struct DiscoverSection_Previews: PreviewProvider {
-    static var previews: some View {
-        DiscoverSection(viewModel: .init(context: .mostPopular, store: .mock()))
-            .configure()
-    }
-}
-#endif
+//#if DEBUG
+//struct DiscoverSection_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DiscoverSection(viewModel: .init(context: .mostPopular, store: ))
+//            .configure()
+//    }
+//}
+//#endif

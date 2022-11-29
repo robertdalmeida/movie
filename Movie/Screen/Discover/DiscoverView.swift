@@ -11,10 +11,10 @@ struct DiscoverView: View {
             }
             Spacer()
             DiscoverSection(viewModel: .init(context: .mostPopular,
-                                             store: appDependencies.mediaStore))
+                                             store: appDependencies.mediaStore.popularMediaStore))
             Spacer()
             DiscoverSection(viewModel:  .init(context: .nowPlaying,
-                                              store: appDependencies.mediaStore))
+                                              store: appDependencies.mediaStore.nowPlayingMediaStore))
             Spacer()
         }
         .background{

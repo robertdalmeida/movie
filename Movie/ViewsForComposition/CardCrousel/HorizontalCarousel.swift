@@ -5,13 +5,22 @@ extension HorizontalCarousel {
 
     final class Store: ObservableObject {
         @Published var items: [CarouselCard.Item]
+        let mediaStore: MediaStoreProtocol
 
-        init(mediaItems: [Media]) {
+        init(mediaStore: MediaStoreProtocol) {
+            self.mediaStore = mediaStore
             items = []
-            for i in 0..<mediaItems.count {
-                let new = CarouselCard.Item(order: i,
-                                            mediaReference: mediaItems[i])
-                items.append(new)
+            
+            switch mediaStore.movies {
+            case .uninitalized, .error:
+                break
+            case .data(let pagedResult):
+                for i in 0..<pagedResult.movies.count {
+                    let new = CarouselCard.Item(order: i,
+                                                mediaReference: pagedResult.movies[i])
+                    items.append(new)
+                    
+                }
             }
         }
     }
@@ -69,11 +78,11 @@ struct HorizontalCarousel: View {
     
 }
 
-#if DEBUG
-struct HorizontalCarousel_Previews: PreviewProvider {
-    static var previews: some View {
-        HorizontalCarousel(store: .init(mediaItems: [.mock, .mock1, .mock2, .mock3, .mock4, .mock5, .mock6]))
-            .frame(width: 400, height: 300)
-    }
-}
-#endif
+//#if DEBUG
+//struct HorizontalCarousel_Previews: PreviewProvider {
+//    static var previews: some View {
+//        HorizontalCarousel(store: .init(mediaItems: [.mock, .mock1, .mock2, .mock3, .mock4, .mock5, .mock6]))
+//            .frame(width: 400, height: 300)
+//    }
+//}
+//#endif

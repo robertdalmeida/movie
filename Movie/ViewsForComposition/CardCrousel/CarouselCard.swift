@@ -54,9 +54,6 @@ extension CarouselCard {
         var title: String {
             mediaReference.title
         }
-        var imageURL: URL? {
-            mediaReference.image
-        }
         var releaseDate: Date? {
             mediaReference.releaseDate
         }

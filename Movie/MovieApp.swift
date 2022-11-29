@@ -14,7 +14,7 @@ final class AppDependencies: ObservableObject {
     }
     
 #if DEBUG
-    static let mock = AppDependencies(mediaStore: .mock(), favoriteStore: .mock)
+    static let mock = AppDependencies(mediaStore: .mock, favoriteStore: .mock)
 #endif
 }
 
