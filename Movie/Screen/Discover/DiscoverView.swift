@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct DiscoverView: View {
-    @EnvironmentObject var appDependencies: AppDependencies
+    // MARK: -  Environment
+    
     let popularMediaStore: MediaCategoryStoreProtocol
     let nowPlayingMediaStore: MediaCategoryStoreProtocol
     

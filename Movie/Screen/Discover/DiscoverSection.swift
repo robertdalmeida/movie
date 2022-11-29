@@ -83,7 +83,6 @@ extension DiscoverSection {
 struct DiscoverSection_Previews: PreviewProvider {
     static var previews: some View {
         DiscoverSection(viewModel: .init(context: .nowPlaying, store: MockStore()))
-            .configure()
     }
 }
 #endif

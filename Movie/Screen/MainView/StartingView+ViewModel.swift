@@ -3,8 +3,6 @@ import Foundation
 extension StartingView {
     @MainActor
     final class ViewModel: ObservableObject {
-        let appDependencies: AppDependencies
-        
         enum State {
             case loading
             case error
@@ -13,26 +11,24 @@ extension StartingView {
         }
         
         @Published private(set) var state: State = .loading
-        
-        // MARK: - Init
-        init(appDependencies: AppDependencies) {
-            self.appDependencies = appDependencies
-        }
-        
+                
         // MARK:  - Start sequence
-        func initiateStartSequence() async {
+        func initiateStartSequence(mediaStore: MediaStore, favoriteStore: FavoritesStore) async {
             self.state = .loading
             Task {
-                async let storeServiceStatus = appDependencies.mediaStore.initialize()
-                async let favoriteInitializationStatus = appDependencies.favoriteStore.initialize()
-
-                switch (await storeServiceStatus, await favoriteInitializationStatus) {
-                case (.failure, .failure):
+                async let storeServiceStatus = mediaStore.initialize()
+                let favoriteStoreInitializationTask = Task {
+                    await favoriteStore.initializeAgain()
+                }
+                await favoriteStoreInitializationTask.value
+                
+                switch (await storeServiceStatus, favoriteStore.status) {
+                case (.failure, .error):
                     self.state = .error
-                case (.failure, .success):
+                case (.failure, .fetched):
                     self.state = .showLocalData
-                case (.success, .success),
-                        (.success, .failure):
+                case (.success, .fetched),
+                    (.success, .error):
                     self.state = .dataRecieved
                 }
             }

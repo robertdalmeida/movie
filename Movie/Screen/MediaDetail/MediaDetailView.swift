@@ -5,7 +5,7 @@ struct MediaDetailView: View {
     enum Constants {
         static let favoriteButtonSize = CGSizeMake(25, 25)
     }
-    @ObservedObject var viewModel: ViewModel
+    @StateObject var viewModel: ViewModel
     @EnvironmentObject var imageStore: ImageStore
     var body: some View {
         ZStack {
@@ -142,7 +142,6 @@ struct MovieDetailView_Previews: PreviewProvider {
     static var previews: some View {
         MediaDetailView(viewModel: .init(media: .mock,
                                          favoriteStore: .mock, mediaStore: .mock))
-            .configure()
     }
 }
 #endif

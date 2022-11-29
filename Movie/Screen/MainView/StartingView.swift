@@ -2,22 +2,28 @@ import SwiftUI
 
 /// The main view of the application that houses the tabview and the containing views.
 struct StartingView: View {
-    @EnvironmentObject var appDependencies: AppDependencies
-    @ObservedObject var viewModel: ViewModel
-    @ObservedObject var mediaNavigationCoordinator = MediaNavigationCoordinator()
+    // MARK: -  Environment
+    @EnvironmentObject var favoriteStore: FavoritesStore
+    @EnvironmentObject var mediaStore: MediaStore
     
+    // MARK: -  Owned
+    @StateObject var viewModel: ViewModel = ViewModel()
+    @StateObject var mediaNavigationCoordinator = MediaNavigationCoordinator()
+    
+    // MARK: -  View
     var body: some View {
         NavigationStack(path: $mediaNavigationCoordinator.navigationPath) {
             ZStack{ view }
             .navigationDestination(for: Media.self) {
                 MediaDetailView(viewModel: .init(media: $0,
-                                                 favoriteStore: appDependencies.favoriteStore,
-                                                 mediaStore: appDependencies.mediaStore))
+                                                 favoriteStore: favoriteStore,
+                                                 mediaStore: mediaStore))
             }
             .environmentObject(mediaNavigationCoordinator)
         }
         .task {
-            await viewModel.initiateStartSequence()
+            await viewModel.initiateStartSequence(mediaStore: mediaStore,
+                                                  favoriteStore: favoriteStore)
         }
         .background{
             LinearGradient(gradient: Gradient(colors: [AppThemeColor.themeColor,
@@ -48,20 +54,18 @@ struct StartingView: View {
     
     private var tabView: some View {
         TabView {
-            DiscoverView(popularMediaStore: appDependencies.mediaStore.popularMediaStore,
-                         nowPlayingMediaStore: appDependencies.mediaStore.nowPlayingMediaStore)
+            DiscoverView(popularMediaStore: mediaStore.popularMediaStore,
+                         nowPlayingMediaStore: mediaStore.nowPlayingMediaStore)
                 .tabItem {
                     Label(Localised.discoverTabBarItemTitle,
                           systemImage: "list.dash")
                 }
-                .environmentObject(appDependencies.favoriteStore)
 
-            FavoritesView(viewModel: .init(favoriteStoreService: appDependencies.favoriteStore))
+            FavoritesView()
                 .tabItem {
                     Label(Localised.favoriteTabBarItemTitle,
                           systemImage: "person.circle")
                 }
-                .environmentObject(appDependencies.favoriteStore)
         }
     }
     
@@ -69,7 +73,8 @@ struct StartingView: View {
         ErrorView(message: "I don't have anything to display - keep tapping me to retry.")
             .onTapGesture {
                 Task {
-                    await viewModel.initiateStartSequence()
+                    await viewModel.initiateStartSequence(mediaStore: mediaStore,
+                                                          favoriteStore: favoriteStore)
                 }
             }
     }
@@ -81,8 +86,7 @@ struct StartingView: View {
 #if DEBUG
 struct StartingView_Previews: PreviewProvider {
     static var previews: some View {
-        StartingView(viewModel: .init(appDependencies: .mock))
-            .configure()
+        StartingView(viewModel: .init())
     }
 }
 #endif

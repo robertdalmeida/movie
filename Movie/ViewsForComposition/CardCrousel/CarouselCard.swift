@@ -76,7 +76,6 @@ extension CarouselCard {
 struct CarouselCard_Previews: PreviewProvider {
     static var previews: some View {
         CarouselCard(item: .mock)
-        .configure()
     }
 }
 #endif
