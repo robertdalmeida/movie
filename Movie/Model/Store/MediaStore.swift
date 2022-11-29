@@ -20,10 +20,6 @@ enum ServicedData<T> {
 }
 
 final class MediaStore: ObservableObject {
-    lazy var movieDetailsMediaStore: TMDBDiscoverMovieDetailService = {
-        TMDBDiscoverMovieDetailService(configuration: .shared)
-    }()
-
     lazy var nowPlayingMediaStore: MediaCategoryStoreProtocol = {
         MoviesCategoryMediaStore(movies: .uninitalized, service: TMDBDiscoverNowPlayingMovieService(configuration: .shared))
     }()
@@ -50,12 +46,6 @@ final class MediaStore: ObservableObject {
         case (.data(_ ), .data(_)):
             return .success(Void())
         }
-    }
-    
-    // MARK: -  Interfaces
-    
-    func fetchMediaDetail(media: Media) async throws -> Media {
-        try await movieDetailsMediaStore.fetchMediaDetail(media: media)
     }
     
     // MARK: -  DEBUG
