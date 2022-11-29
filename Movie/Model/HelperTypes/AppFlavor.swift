@@ -1,6 +1,9 @@
 import Foundation
 import SwiftUI
 
+enum FeatureToggle {
+    static let useUnPagedCardCarousel = false
+}
 
 enum AppThemeColor {
     static let themeColor = Color(.systemGray2)

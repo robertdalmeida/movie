@@ -17,7 +17,11 @@ struct DiscoverSection: View {
             case .noData:
                 ErrorView(message: "Unable to fetch")
             case .showMedia:
-                PlainCarousel(viewModel: .init(mediaStore: viewModel.store))
+                if FeatureToggle.useUnPagedCardCarousel {
+                    HorizontalCarousel(store: .init(mediaStore: viewModel.store))
+                } else {
+                    PlainCarousel(viewModel: .init(mediaStore: viewModel.store))
+                }
             }
             Spacer()
         }
