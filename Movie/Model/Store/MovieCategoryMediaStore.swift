@@ -1,5 +1,8 @@
 import Foundation
 
+/// A store to manage a category of movies like Popular and Now playing.
+/// Both these use cases use this type.
+/// This type also handles pagination.
 final class MoviesCategoryMediaStore: MediaCategoryStoreProtocol {
     var movies: ServicedData<PagedResult> = .uninitalized
     let service: MediaService

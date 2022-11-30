@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-/// <#Description#>
+/// This store fetches image from the service and stores it into the disk.
 final class ImageStore: ObservableObject {
     let fileStorageService = FileStorageService(folderName: "Images")
     let imageFetchService = ImageFetchingService()

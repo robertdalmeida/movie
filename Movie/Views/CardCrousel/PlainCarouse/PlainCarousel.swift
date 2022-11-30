@@ -1,6 +1,6 @@
 import SwiftUI
 
-
+/// This plain Carousel supports pagination.
 struct PlainCarousel: View {
     @StateObject var viewModel: ViewModel
     @EnvironmentObject var mediaNavigationCoordinator: MediaNavigationCoordinator

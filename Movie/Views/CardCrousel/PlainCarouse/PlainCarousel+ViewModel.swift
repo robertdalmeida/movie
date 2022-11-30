@@ -10,12 +10,11 @@ extension PlainCarousel {
         }
         @Published var items: [CarouselCard.Item]
         let mediaStore: MediaCategoryStoreProtocol
-        var state: State
+        @Published var state: State = .loading
         
         init(mediaStore: MediaCategoryStoreProtocol) {
             items = []
             self.mediaStore = mediaStore
-            state = .loading
             
             switch mediaStore.movies {
             case .uninitalized, .error:
@@ -30,8 +29,11 @@ extension PlainCarousel {
                 self.state = .loaded
             }
         }
-        //TODO: Separate the pagination into a separate type.
-        func appendMoreMovies(_ movies: [Media]) {
+
+        // MARK: - Pagination
+        
+        /// Appends the next page of movies to the current set of Items
+        private func appendMoreMovies(_ movies: [Media]) {
             var theLastValidOrder = self.items.last?.id ?? 0
             theLastValidOrder += 1
             for i in 0..<movies.count {
@@ -42,12 +44,13 @@ extension PlainCarousel {
             }
         }
         
+        /// Whenever a card is displayed here we decide if we need to call the next page.
         func onAppear(item visibleItem: CarouselCard.Item) {
             let currentCacheCount = items.count
             guard let index = items.firstIndex(where: { item in
                 item.id == visibleItem.id
             }) else { return }
-            if (currentCacheCount - index) < 5 { // if it is the last few cards
+            if (currentCacheCount - index) < 10 { // if it is the last few cards
                 fetchNextPage()
             }
         }

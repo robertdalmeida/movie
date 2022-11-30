@@ -91,6 +91,7 @@
 		14898B73293074DC00018A5E /* Sequence+AsycMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+AsycMap.swift"; sourceTree = "<group>"; };
 		14898B75293078D400018A5E /* URL+Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Mocks.swift"; sourceTree = "<group>"; };
 		14898B77293079C600018A5E /* DiscoverSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverSection.swift; sourceTree = "<group>"; };
+		14A55BA72936DF2300DDDC4C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		14E0692229341E8800CBF5E5 /* CircularIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularIndicator.swift; sourceTree = "<group>"; };
 		14E069242934AA7000CBF5E5 /* ImageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStore.swift; sourceTree = "<group>"; };
 		14E069262934BBCF00CBF5E5 /* ImageSourcedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSourcedImageView.swift; sourceTree = "<group>"; };
@@ -130,6 +131,7 @@
 		14064464292E4C37003346F3 = {
 			isa = PBXGroup;
 			children = (
+				14A55BA72936DF2300DDDC4C /* README.md */,
 				1406446F292E4C37003346F3 /* Movie */,
 				14064480292E4C3A003346F3 /* MovieTests */,
 				1406446E292E4C37003346F3 /* Products */,
@@ -151,7 +153,7 @@
 				14064470292E4C37003346F3 /* MovieApp.swift */,
 				140644A1292F19E1003346F3 /* Screen */,
 				1406449D292F141D003346F3 /* Model */,
-				14898B63292F753500018A5E /* ViewsForComposition */,
+				14898B63292F753500018A5E /* Views */,
 				14898B72293074C500018A5E /* AppExtensions */,
 				14898B5C292F622500018A5E /* Resources */,
 				14064474292E4C3A003346F3 /* Assets.xcassets */,
@@ -294,7 +296,7 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		14898B63292F753500018A5E /* ViewsForComposition */ = {
+		14898B63292F753500018A5E /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				141BE60E2932C8E0000144AC /* CardCrousel */,
@@ -302,7 +304,7 @@
 				14E0692229341E8800CBF5E5 /* CircularIndicator.swift */,
 				14E069262934BBCF00CBF5E5 /* ImageSourcedImageView.swift */,
 			);
-			path = ViewsForComposition;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		14898B72293074C500018A5E /* AppExtensions */ = {

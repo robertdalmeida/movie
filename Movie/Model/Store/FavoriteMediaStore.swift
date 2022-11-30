@@ -1,5 +1,8 @@
 import Foundation
+
+
 @MainActor
+/// Any operation  to do with favorites we use this store.
 final class FavoritesStore: ObservableObject {
     let storage: FileStorageService = .init(folderName: "Favorites")
     let imageStore: ImageStore = .init()

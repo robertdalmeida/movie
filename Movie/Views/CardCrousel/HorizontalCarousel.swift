@@ -1,31 +1,6 @@
 import SwiftUI
 
-
-extension HorizontalCarousel {
-
-    final class Store: ObservableObject {
-        @Published var items: [CarouselCard.Item]
-        let mediaStore: MediaCategoryStoreProtocol
-
-        init(mediaStore: MediaCategoryStoreProtocol) {
-            self.mediaStore = mediaStore
-            items = []
-            
-            switch mediaStore.movies {
-            case .uninitalized, .error:
-                break
-            case .data(let pagedResult):
-                for i in 0..<pagedResult.movies.count {
-                    let new = CarouselCard.Item(order: i,
-                                                mediaReference: pagedResult.movies[i])
-                    items.append(new)
-                    
-                }
-            }
-        }
-    }
-}
-
+/// Attempted a fancy Carousel playing with the opacity and positioning. Couldn't implement pagination in time, also the memory impact of this would have been greater. 
 struct HorizontalCarousel: View {
     @ObservedObject var store: Store
     @EnvironmentObject var mediaNavigationCoordinator: MediaNavigationCoordinator
@@ -77,6 +52,31 @@ struct HorizontalCarousel: View {
     }
     
 }
+
+extension HorizontalCarousel {
+    final class Store: ObservableObject {
+        @Published var items: [CarouselCard.Item]
+        let mediaStore: MediaCategoryStoreProtocol
+
+        init(mediaStore: MediaCategoryStoreProtocol) {
+            self.mediaStore = mediaStore
+            items = []
+            
+            switch mediaStore.movies {
+            case .uninitalized, .error:
+                break
+            case .data(let pagedResult):
+                for i in 0..<pagedResult.movies.count {
+                    let new = CarouselCard.Item(order: i,
+                                                mediaReference: pagedResult.movies[i])
+                    items.append(new)
+                    
+                }
+            }
+        }
+    }
+}
+
 
 #if DEBUG
 struct HorizontalCarousel_Previews: PreviewProvider {

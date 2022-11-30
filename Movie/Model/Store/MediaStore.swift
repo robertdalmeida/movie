@@ -19,6 +19,8 @@ enum ServicedData<T> {
     case error(StoreServiceError)
 }
 
+/// This type is like a container for the 2 movie stores used in this application the now playing and the popular.
+/// This takes the responsibilty to coordinate between them, but the individual stores are more than capable of doing things themselves. 
 final class MediaStore: ObservableObject {
     lazy var nowPlayingMediaStore: MediaCategoryStoreProtocol = {
         MoviesCategoryMediaStore(movies: .uninitalized, service: TMDBDiscoverNowPlayingMovieService(configuration: .shared))

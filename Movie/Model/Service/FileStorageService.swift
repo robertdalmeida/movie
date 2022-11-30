@@ -1,5 +1,7 @@
 import Foundation
 
+/// Use this type to store some data(`Data`) as files in a folder.
+/// In this application this is used to store both images and the favorites.
 struct FileStorageService {
     enum FileServiceError: Error {
         case fileNotFound

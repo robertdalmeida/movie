@@ -7,6 +7,7 @@ struct MediaDetailView: View {
     }
     @StateObject var viewModel: ViewModel
     @EnvironmentObject var imageStore: ImageStore
+    
     var body: some View {
         ZStack {
             ScrollView {

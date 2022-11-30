@@ -1,8 +1,7 @@
 import Foundation
 
-/// A application type to display any video/movie.
+/// A application type to display a movie. .
 /// External types need to translate to this type to be used in this application.
-/// Doing this to avoid adding any direct dependencies with any third party type.
 final class Media: Hashable, Codable, Identifiable {
     let title: String
     let image: URL?

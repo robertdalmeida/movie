@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Use this view to display an image when the source of the image can either be a URL, file, or not available. 
 struct SourcedImageView: View {
     let imageSource: ImageSource
     @EnvironmentObject var imageStoreService: ImageStore
