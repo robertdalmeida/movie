@@ -18,7 +18,7 @@ The Service layer interacts with external dependencies and services like file se
 ## External Dependencies
 To fetch the movies from TMDB this app uses https://github.com/adamayoung/TMDb integrated via swift package manager.
 
-## Improvements
+## Possible Improvements
 - Show an offline bar
 - Add a refresh/reset option when the app is offline mode to reinitialize the app.
 - Offline mode - save a new favorite for the already loaded movies.
