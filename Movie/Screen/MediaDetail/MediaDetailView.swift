@@ -105,6 +105,7 @@ struct MediaDetailView: View {
             }
         }
     }
+    
     var favoriteButton: some View {
         Button {
             Task {

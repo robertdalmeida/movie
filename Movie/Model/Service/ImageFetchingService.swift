@@ -19,7 +19,7 @@ actor ImageFetchingService {
     enum ImageFetchingServiceError: Error {
         case unableToFetchImageDataFromTheURL
     }
-    
+        
     public func fetch(_ url: URL) async throws -> UIImage {
         if let status = images[url] {
             switch status {
