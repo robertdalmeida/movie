@@ -30,7 +30,7 @@ To fetch the movies from TMDB this app uses https://github.com/adamayoung/TMDb i
 ![NoNetwork](https://user-images.githubusercontent.com/96450350/204687928-eb7ed254-d801-4241-b648-de332ee1e7d7.gif)
 
 
-### Browse app & Save favorites
+### Browse app, save & delete favorites
 ![SaveFavorite_Com](https://user-images.githubusercontent.com/96450350/204688200-c74c3175-3890-424c-930f-4b2a11bbd382.gif)
 
 ### Access Saved Favorites when in Offline mode
