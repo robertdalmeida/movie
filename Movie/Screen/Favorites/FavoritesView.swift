@@ -68,24 +68,7 @@ extension FavoritesView {
             case loaded
         }
         var state: ViewState = .noFavorites
-        
-//        init(favoriteStoreService: FavoritesStore) {
-//            self.favoriteStoreService = favoriteStoreService
-//
-////            favoriteStoreService.$status.receive(on: RunLoop.main)
-////                .sink { status in
-////                    switch status {
-////                    case .fetched(mediaContents: let favorites):
-////                        self.favorites = favorites
-////                        self.state = .loaded
-////                    case .error:
-////                        self.state = .noFavorites
-////                        break
-////                    }
-////                }.store(in: &anyCancellables)
-//        }
-        
-        
+                
     }
 }
 

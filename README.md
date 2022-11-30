@@ -3,6 +3,11 @@
 ## About 
 This app uses the TMDB apis to fetch & browse movies and save them locally as favorites. 
 
+## Building
+- Launch XCode 14.1
+- Wait until XCode resolves the dependencies
+- Play
+
 ## Design
 The app has 3 distinct layers the `View specification` called as `View` the `Store` and `Service`. 
 The Service layer interacts with external dependencies and services like file services. 
@@ -21,7 +26,6 @@ To fetch the movies from TMDB this app uses https://github.com/adamayoung/TMDb i
 - Favorite button could use an error state. 
 - Tests - the stores can be tested.
 - UI Tests - on adding some accessibility identifiers.
-- Add a launch screen
 
 ## Shots
 
