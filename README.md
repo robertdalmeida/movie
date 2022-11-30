@@ -1,9 +1,12 @@
 #  Discovering Movies
 
 ## About 
-This app uses the TMDB apis to fetch movies and save them locally as favorites. 
+This app uses the TMDB apis to fetch & browse movies and save them locally as favorites. 
 
 ## Design
+The app has 3 distinct layers the `View specification` called as `View` the `Store` and `Service`. 
+The Service layer interacts with external dependencies and services like file services. 
+
 ![SystemDesign](https://user-images.githubusercontent.com/96450350/204686436-132c92e1-ea00-47fb-9211-eb9436f73a2b.png)
 
 
